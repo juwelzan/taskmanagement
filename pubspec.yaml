@@ -43,6 +43,7 @@ dependencies:
   go_router: ^17.0.0
   pinput: ^6.0.1
   auto_size_text: ^3.0.0
+  lottie: ^3.3.2
 
 dev_dependencies:
   flutter_test:

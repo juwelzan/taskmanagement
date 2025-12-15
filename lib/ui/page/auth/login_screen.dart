@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        print("forget  password");
+                        context.push("/email");
                       },
                     children: [
                       TextSpan(text: "\n"),
@@ -58,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            print("object");
+                            context.push("/registration");
                           },
                       ),
                     ],

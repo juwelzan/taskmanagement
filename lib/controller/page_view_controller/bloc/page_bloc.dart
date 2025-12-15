@@ -8,6 +8,7 @@ class PageBloc extends Bloc<PageEvent, PageState> {
     on<Completed>(_completed);
     on<Canceld>(_canceled);
     on<Progress>(_progress);
+    on<Dilog>(_dilog);
   }
   Future<void> _newTask(NewTasks event, Emitter<PageState> emit) async {
     emit(state.copyWith(page: 0));
@@ -23,5 +24,9 @@ class PageBloc extends Bloc<PageEvent, PageState> {
 
   Future<void> _progress(Progress event, Emitter<PageState> emit) async {
     emit(state.copyWith(page: 3));
+  }
+
+  Future<void> _dilog(Dilog event, Emitter<PageState> emit) async {
+    emit(state.copyWith(dilogOpen: event.index));
   }
 }

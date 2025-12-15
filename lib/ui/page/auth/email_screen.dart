@@ -29,7 +29,13 @@ class EmailScreen extends StatelessWidget {
               child: Icon(Icons.arrow_circle_right_outlined),
             ),
             Gap(50.h),
-            Center(child: HaveAccountWidget(onTap: () {})),
+            Center(
+              child: HaveAccountWidget(
+                onTap: () {
+                  context.go("/login");
+                },
+              ),
+            ),
           ],
         ),
       ),

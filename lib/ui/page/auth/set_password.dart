@@ -29,7 +29,13 @@ class SetPassword extends StatelessWidget {
             Gap(40.h),
             FilledButton(onPressed: () {}, child: Text("Confirm")),
             Gap(50.h),
-            Center(child: HaveAccountWidget()),
+            Center(
+              child: HaveAccountWidget(
+                onTap: () {
+                  context.go("/login");
+                },
+              ),
+            ),
           ],
         ),
       ),

@@ -1,7 +1,7 @@
 import '../path/path.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: "/home",
+  initialLocation: "/",
   routes: [
     GoRoute(
       path: "/",
@@ -92,10 +92,10 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: "/userdatainput",
+      path: "/registration",
       pageBuilder: (context, state) {
         return CustomTransitionPage(
-          child: UserDataFormScreen(),
+          child: RegistrationScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: Tween<double>(begin: 0.0, end: 1.0).animate(animation),

@@ -11,6 +11,10 @@ class MainPage extends StatelessWidget {
       body: BottomNavebar(
         pages: [NewTask(), CompletedTask(), CanceledTask(), ProgressTask()],
       ),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 70.h),
+        child: FloatingActionButton(onPressed: () {}, child: Icon(Icons.add)),
+      ),
     );
   }
 }

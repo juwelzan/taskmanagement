@@ -36,6 +36,13 @@ final ThemeData light = ThemeData(
       fontSize: 17.sp,
       fontWeight: FontWeight.bold,
     ),
+    titleLarge: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+    titleMedium: TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.bold,
+      color: Colors.black45,
+    ),
+    titleSmall: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
   ),
 
   filledButtonTheme: FilledButtonThemeData(
@@ -53,5 +60,9 @@ final ThemeData light = ThemeData(
       fixedSize: Size(70.w, double.maxFinite),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.sp)),
     ),
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: Color(0xff21bf73),
+    foregroundColor: Color(0xffffffff),
   ),
 );

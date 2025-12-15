@@ -5,25 +5,32 @@ class TextFieldWidget extends StatelessWidget {
   final ValueChanged? onChanged;
   final String? hintText, errorText;
   final TextEditingController? controller;
-  TextFieldWidget({
+  final TextInputType? textInputType;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool obscureText;
+
+  const TextFieldWidget({
     super.key,
     this.validator,
     this.hintText,
     this.errorText,
     this.controller,
     this.onChanged,
+    this.textInputType,
+    this.inputFormatters,
+    this.obscureText = false,
   });
-  final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formkey,
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(hintText: hintText, errorText: errorText),
-        validator: validator,
-        onChanged: onChanged,
-      ),
+    return TextFormField(
+      obscureText: obscureText,
+      keyboardType: textInputType,
+      inputFormatters: inputFormatters,
+      controller: controller,
+      decoration: InputDecoration(hintText: hintText, errorText: errorText),
+      validator: validator,
+      onChanged: onChanged,
     );
   }
 }

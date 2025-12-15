@@ -1,5 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
 import 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
+import 'package:taskmanagement/controller/spash_controller/bloc/splash_bloc.dart';
+import 'package:taskmanagement/controller/spash_controller/bloc/splash_event.dart';
 
 import '../../../core/path/path.dart';
 
@@ -19,8 +22,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PageBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => SplashBloc()..add(StartSplash())),
+        BlocProvider(create: (context) => ApiRequestBloc(router)),
+        BlocProvider(create: (context) => PageBloc()),
+      ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: light,

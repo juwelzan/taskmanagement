@@ -18,7 +18,7 @@ export 'package:taskmanagement/ui/custom/apps_bar/apps_bar.dart';
 
 export 'package:taskmanagement/ui/custom/bottom_navebar/bottom_navebar.dart';
 export 'package:taskmanagement/ui/page/auth/pin_verification_screen.dart';
-export 'package:taskmanagement/ui/page/auth/user_data_form_screen.dart';
+export 'package:taskmanagement/ui/page/auth/registration_screen.dart';
 export 'package:taskmanagement/core/route/routes.dart';
 export 'package:taskmanagement/theme/theme.dart';
 

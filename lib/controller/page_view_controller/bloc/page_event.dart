@@ -11,3 +11,8 @@ class Completed extends PageEvent {}
 class Canceld extends PageEvent {}
 
 class Progress extends PageEvent {}
+
+class Dilog extends PageEvent {
+  final int index;
+  Dilog({this.index = 349757239475});
+}
