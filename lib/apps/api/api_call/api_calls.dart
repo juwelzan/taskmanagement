@@ -27,7 +27,10 @@ class ApiCalls {
     }
   }
 
-  static Future<http.Response> RequestGet(String uri, String? token) async {
+  static Future<http.Response> RequestGet({
+    required String uri,
+    String? token,
+  }) async {
     try {
       final url = Uri.parse(uri);
       final response = await http.get(url, headers: {"token": token ?? ""});

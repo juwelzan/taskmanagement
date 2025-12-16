@@ -10,6 +10,7 @@ import 'package:taskmanagement/controller/api_request_controller/bloc/api_reques
 import 'package:taskmanagement/core/models/login_model/login_model.dart';
 import 'package:taskmanagement/core/models/registration_model/registration_model.dart';
 import 'package:taskmanagement/core/models/resgistration_status_model/resgistration_status_model.dart';
+import 'package:taskmanagement/core/models/task_model/task_mode.dart';
 import 'package:taskmanagement/core/models/user_model/user_model.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
@@ -27,6 +28,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     on<UserLoginCheck>(_userLoginCheck);
     on<EmailUseMessage>(_emailUseMessage);
     on<LogoutUser>(_logoutUser);
+    on<GetTaskData>(_getTaskData);
   }
   Future<void> _resgistration(
     RegistrationEvent event,
@@ -55,7 +57,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
         ApiRequestState.userDataKey,
         jsonEncode(user.toJson()),
       );
-
+      // add(GetTaskData());
       router.go("/home");
     }
 
@@ -170,12 +172,65 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
           userDataLocalModel: UserDataLocalModel.fromJson(jsonDecode(data)),
         ),
       );
-      print(data);
+
       router.go("/home");
     }
     if (data == null || data == "") {
       router.go("/login");
     }
-    print("object api");
+  }
+
+  Future<void> _getTaskData(
+    GetTaskData event,
+    Emitter<ApiRequestState> emit,
+  ) async {
+    debugPrint("data kcall");
+    try {
+      final newTask = await ApiCalls.RequestGet(
+        uri: Urls.NewTaskGetUrl(),
+        token: state.userModel?.token,
+      );
+      final completedTask = await ApiCalls.RequestGet(
+        uri: Urls.NewTaskGetUrl(),
+        token: state.userModel?.token,
+      );
+      final canceledTask = await ApiCalls.RequestGet(
+        uri: Urls.NewTaskGetUrl(),
+        token: state.userModel?.token,
+      );
+      final progressTask = await ApiCalls.RequestGet(
+        uri: Urls.NewTaskGetUrl(),
+        token: state.userModel?.token,
+      );
+
+      if (newTask.statusCode == 200 &&
+          completedTask.statusCode == 200 &&
+          canceledTask.statusCode == 200 &&
+          progressTask.statusCode == 200) {
+        debugPrint("all url ok");
+        TaskMode newTaskData = TaskMode.formJson(jsonDecode(newTask.body));
+        TaskMode completedTaskData = TaskMode.formJson(
+          jsonDecode(completedTask.body),
+        );
+        TaskMode canceledTaskData = TaskMode.formJson(
+          jsonDecode(canceledTask.body),
+        );
+        TaskMode progressTaskData = TaskMode.formJson(
+          jsonDecode(progressTask.body),
+        );
+
+        emit(
+          state.copyWith(
+            newTaskData: newTaskData.taskData,
+            completedTaskData: completedTaskData.taskData,
+            canceletTaskData: canceledTaskData.taskData,
+            progressTaskData: progressTaskData.taskData,
+          ),
+        );
+        debugPrint(state.newTaskData?.length.toString());
+      }
+    } catch (e) {
+      throw (e.toString());
+    }
   }
 }

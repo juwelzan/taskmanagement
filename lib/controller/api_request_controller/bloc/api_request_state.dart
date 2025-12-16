@@ -1,5 +1,5 @@
 import 'package:taskmanagement/core/models/resgistration_status_model/resgistration_status_model.dart';
-import 'package:taskmanagement/core/models/task_model/task_mode.dart';
+import 'package:taskmanagement/core/models/task_data_model/task_data_model.dart';
 import 'package:taskmanagement/core/models/user_model/user_model.dart';
 
 class ApiRequestState {
@@ -13,7 +13,10 @@ class ApiRequestState {
   final String emailUseMessage, emailPassWrongMessg;
   final UserDataLocalModel? userDataLocalModel;
   static const String userDataKey = "userData";
-  final TaskMode? taskMode;
+  final List<TaskDataModel>? newTaskData;
+  final List<TaskDataModel>? progressTaskData;
+  final List<TaskDataModel>? canceletTaskData;
+  final List<TaskDataModel>? completedTaskData;
 
   ApiRequestState({
     this.userModel,
@@ -26,7 +29,10 @@ class ApiRequestState {
     this.emailUseMessage = "",
     this.userDataLocalModel,
     this.emailPassWrongMessg = "",
-    this.taskMode,
+    this.newTaskData,
+    this.progressTaskData,
+    this.canceletTaskData,
+    this.completedTaskData,
   });
 
   ApiRequestState copyWith({
@@ -40,7 +46,10 @@ class ApiRequestState {
     String? emailUseMessage,
     String? emailPassWrongMessg,
     UserDataLocalModel? userDataLocalModel,
-    TaskMode? taskMode,
+    List<TaskDataModel>? completedTaskData,
+    List<TaskDataModel>? newTaskData,
+    List<TaskDataModel>? progressTaskData,
+    List<TaskDataModel>? canceletTaskData,
   }) {
     return ApiRequestState(
       userModel: userModel ?? this.userModel,
@@ -54,7 +63,10 @@ class ApiRequestState {
       emailUseMessage: emailUseMessage ?? this.emailUseMessage,
       userDataLocalModel: userDataLocalModel ?? this.userDataLocalModel,
       emailPassWrongMessg: emailPassWrongMessg ?? this.emailPassWrongMessg,
-      taskMode: taskMode ?? this.taskMode,
+      completedTaskData: completedTaskData ?? this.completedTaskData,
+      canceletTaskData: canceletTaskData ?? this.canceletTaskData,
+      newTaskData: newTaskData ?? this.newTaskData,
+      progressTaskData: progressTaskData ?? this.progressTaskData,
     );
   }
 }

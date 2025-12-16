@@ -55,3 +55,5 @@ class EmailUseMessage extends ApiRequestEvent {
 class UserLoginCheck extends ApiRequestEvent {}
 
 class LogoutUser extends ApiRequestEvent {}
+
+class GetTaskData extends ApiRequestEvent {}
