@@ -51,3 +51,7 @@ class EmailUseMessage extends ApiRequestEvent {
   final String emailUseMessage;
   EmailUseMessage({required this.emailUseMessage});
 }
+
+class UserLoginCheck extends ApiRequestEvent {}
+
+class LogoutUser extends ApiRequestEvent {}

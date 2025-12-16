@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
+import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/spash_controller/bloc/splash_bloc.dart';
 import 'package:taskmanagement/controller/spash_controller/bloc/splash_state.dart';
 
@@ -13,7 +15,8 @@ class SplashScreen extends StatelessWidget {
       child: BlocListener<SplashBloc, SplashState>(
         listener: (context, state) {
           if (state.splashEnd) {
-            context.pushReplacement("/login");
+            context.read<ApiRequestBloc>().add(UserLoginCheck());
+            print("object sp");
           }
         },
         child: Center(child: SvgPicture.asset("assets/logo.svg")),

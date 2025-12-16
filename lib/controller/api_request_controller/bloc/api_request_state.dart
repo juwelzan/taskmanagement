@@ -1,4 +1,5 @@
 import 'package:taskmanagement/core/models/resgistration_status_model/resgistration_status_model.dart';
+import 'package:taskmanagement/core/models/task_model/task_mode.dart';
 import 'package:taskmanagement/core/models/user_model/user_model.dart';
 
 class ApiRequestState {
@@ -9,7 +10,10 @@ class ApiRequestState {
   final ResgistrationStatusModel? resgistrationStatusModel;
   final String imgSelectM;
   final bool lodingSpin;
-  final String emailUseMessage;
+  final String emailUseMessage, emailPassWrongMessg;
+  final UserDataLocalModel? userDataLocalModel;
+  static const String userDataKey = "userData";
+  final TaskMode? taskMode;
 
   ApiRequestState({
     this.userModel,
@@ -20,6 +24,9 @@ class ApiRequestState {
     this.imgSelectM = "Profile image not set.",
     this.lodingSpin = false,
     this.emailUseMessage = "",
+    this.userDataLocalModel,
+    this.emailPassWrongMessg = "",
+    this.taskMode,
   });
 
   ApiRequestState copyWith({
@@ -31,6 +38,9 @@ class ApiRequestState {
     String? imgSelectM,
     bool? lodingSpin,
     String? emailUseMessage,
+    String? emailPassWrongMessg,
+    UserDataLocalModel? userDataLocalModel,
+    TaskMode? taskMode,
   }) {
     return ApiRequestState(
       userModel: userModel ?? this.userModel,
@@ -42,6 +52,9 @@ class ApiRequestState {
       imgSelectM: imgSelectM ?? this.imgSelectM,
       lodingSpin: lodingSpin ?? this.lodingSpin,
       emailUseMessage: emailUseMessage ?? this.emailUseMessage,
+      userDataLocalModel: userDataLocalModel ?? this.userDataLocalModel,
+      emailPassWrongMessg: emailPassWrongMessg ?? this.emailPassWrongMessg,
+      taskMode: taskMode ?? this.taskMode,
     );
   }
 }

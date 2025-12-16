@@ -1,3 +1,5 @@
+import 'package:taskmanagement/ui/custom/drawer/drawerr.dart';
+
 import '../../../core/path/path.dart';
 
 class MainPage extends StatelessWidget {
@@ -7,6 +9,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppsBar(),
+      drawer: Drawerr(),
 
       body: BottomNavebar(
         pages: [NewTask(), CompletedTask(), CanceledTask(), ProgressTask()],

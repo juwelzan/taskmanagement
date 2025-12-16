@@ -65,4 +65,9 @@ final ThemeData light = ThemeData(
     backgroundColor: Color(0xff21bf73),
     foregroundColor: Color(0xffffffff),
   ),
+  dividerTheme: DividerThemeData(
+    color: Colors.black.withOpacity(0.5),
+    thickness: 2.h,
+    radius: BorderRadius.circular(5.sp),
+  ),
 );
