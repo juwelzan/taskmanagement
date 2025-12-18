@@ -12,6 +12,7 @@ import 'package:taskmanagement/core/models/new_task_add_model/new_task_add_model
 import 'package:taskmanagement/core/models/registration_model/registration_model.dart';
 import 'package:taskmanagement/core/models/resgistration_status_model/resgistration_status_model.dart';
 import 'package:taskmanagement/core/models/task_model/task_mode.dart';
+import 'package:taskmanagement/core/models/udate_profile_model/udate_profile_model.dart';
 import 'package:taskmanagement/core/models/user_model/user_model.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
@@ -33,6 +34,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     on<AddNewTaskEvent>(_addNewTask);
     on<DeleteTaskEvent>(_deleteTask);
     on<TaskStatusEvent>(_taskStatus);
+    on<ProfileUpdateEvent>(_profileUpdate);
   }
   Future<void> _resgistration(
     RegistrationEvent event,
@@ -285,5 +287,24 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     Emitter<ApiRequestState> emit,
   ) async {
     emit(state.copyWith(taskStatus: event.status));
+  }
+
+  Future<void> _profileUpdate(
+    ProfileUpdateEvent event,
+    Emitter<ApiRequestState> emit,
+  ) async {
+    UdateProfileModel data = UdateProfileModel(
+      lastName: event.profileUpdate.lastName,
+      firstName: event.profileUpdate.firstName,
+      photo: event.profileUpdate.photo,
+    );
+
+    final response = await ApiCalls.RequestPost(
+      uri: Urls.ProfileUpdateUrl(),
+      body: data.toJson(),
+      token: state.userDataLocalModel?.token,
+    );
+
+    debugPrint(response.statusCode.toString());
   }
 }

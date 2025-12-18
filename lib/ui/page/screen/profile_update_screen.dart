@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
+import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
+import 'package:taskmanagement/core/models/udate_profile_model/udate_profile_model.dart';
 import 'package:taskmanagement/core/path/path.dart';
 import 'package:taskmanagement/ui/custom/bottom_sheet/img_bottom_sheet.dart';
 
@@ -84,7 +86,20 @@ class ProfileUpdateScreen extends StatelessWidget {
                       },
                       child: Text("Back"),
                     ),
-                    ElevatedButton(onPressed: () {}, child: Text("Update")),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<ApiRequestBloc>().add(
+                          ProfileUpdateEvent(
+                            profileUpdate: UdateProfileModel(
+                              lastName: lastName.text,
+                              firstName: fastName.text,
+                              photo: state.imgUrl,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text("Update"),
+                    ),
                   ],
                 ),
               ],

@@ -3,6 +3,7 @@
 import 'package:taskmanagement/core/models/login_model/login_model.dart';
 import 'package:taskmanagement/core/models/new_task_add_model/new_task_add_model.dart';
 import 'package:taskmanagement/core/models/registration_model/registration_model.dart';
+import 'package:taskmanagement/core/models/udate_profile_model/udate_profile_model.dart';
 
 class ApiRequestEvent {}
 
@@ -72,4 +73,9 @@ class DeleteTaskEvent extends ApiRequestEvent {
 class TaskStatusEvent extends ApiRequestEvent {
   final String status;
   TaskStatusEvent({required this.status});
+}
+
+class ProfileUpdateEvent extends ApiRequestEvent {
+  final UdateProfileModel profileUpdate;
+  ProfileUpdateEvent({required this.profileUpdate});
 }
