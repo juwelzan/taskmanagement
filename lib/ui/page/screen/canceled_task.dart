@@ -57,6 +57,9 @@ class CanceledTask extends StatelessWidget {
                           subTitel: task?.description,
                           title: task?.title,
                           isShow: index == pageState.dilogOpen,
+                          edit: () {
+                            // showAboutDialog(context: (context)=>)
+                          },
                           onLongPress: () {
                             context.read<PageBloc>().add(Dilog(index: index));
                           },

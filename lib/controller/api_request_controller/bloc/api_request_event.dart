@@ -68,3 +68,8 @@ class DeleteTaskEvent extends ApiRequestEvent {
   final String id;
   DeleteTaskEvent({required this.id});
 }
+
+class TaskStatusEvent extends ApiRequestEvent {
+  final String status;
+  TaskStatusEvent({required this.status});
+}

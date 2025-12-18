@@ -7,6 +7,7 @@ import 'package:taskmanagement/controller/api_request_controller/bloc/api_reques
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
 import 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
+import 'package:taskmanagement/ui/custom/about_dialog_box/about_dialog_box.dart';
 import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
 import 'package:taskmanagement/ui/custom/task_view_container/task_view_container.dart';
 
@@ -59,13 +60,56 @@ class NewTask extends StatelessWidget {
                           isShow: index == pageState.dilogOpen,
                           onLongPress: () {
                             context.read<PageBloc>().add(Dilog(index: index));
+                            context.read<ApiRequestBloc>().add(
+                              TaskStatusEvent(status: task!.status),
+                            );
                           },
                           cancel: () {
                             context.read<PageBloc>().add(
                               Dilog(index: 349757239475),
                             );
                           },
+                          edit: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                backgroundColor: Color(0xff22bf73),
+                                title: Text("Edit Status"),
+                                //     actions: [
+                                //       CheckboxListTile(
+                                //         title: Text("New"),
+                                //         value: apiState.taskStatus == "New",
+                                //         onChanged: (value) {
+                                //           context.read<ApiRequestBloc>().add(
+                                //   TaskStatusEvent(status: "New"),
+                                // );
+                                //         },
+                                //       ),
+                                //       CheckboxListTile(
+                                //         title: Text("Completed"),
+                                //         value: apiState.taskStatus,
+                                //         onChanged: (value) {
+                                //           context.read<ApiRequestBloc>().add(
+                                //   TaskStatusEvent(status: task!.status),
+                                // );
+                                //         },
+                                //       ),
+                                //       CheckboxListTile(
+                                //         title: Text("Canceled"),
+                                //         value: apiState.taskStatus == "Canceled",
+                                //         onChanged: (value) {
 
+                                //         },
+                                //       ),
+                                //       CheckboxListTile(
+                                //         title: Text("Progress"),
+                                //         value: apiState.taskStatus == "Progress",
+                                //         onChanged: (value) {},
+                                //       ),
+                                //     ],
+                              ),
+                            );
+                          },
                           delete: () {
                             showCupertinoModalPopup(
                               context: context,

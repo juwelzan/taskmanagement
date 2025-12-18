@@ -32,6 +32,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     on<GetTaskDataEvent>(_getTaskData);
     on<AddNewTaskEvent>(_addNewTask);
     on<DeleteTaskEvent>(_deleteTask);
+    on<TaskStatusEvent>(_taskStatus);
   }
   Future<void> _resgistration(
     RegistrationEvent event,
@@ -277,5 +278,12 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     if (response.statusCode == 200) {
       add(GetTaskDataEvent());
     }
+  }
+
+  Future<void> _taskStatus(
+    TaskStatusEvent event,
+    Emitter<ApiRequestState> emit,
+  ) async {
+    emit(state.copyWith(taskStatus: event.status));
   }
 }

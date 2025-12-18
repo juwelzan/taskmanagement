@@ -17,6 +17,7 @@ class ApiRequestState {
   final List<TaskDataModel>? progressTaskData;
   final List<TaskDataModel>? canceletTaskData;
   final List<TaskDataModel>? completedTaskData;
+  final String? taskStatus;
 
   ApiRequestState({
     this.userModel,
@@ -33,6 +34,7 @@ class ApiRequestState {
     this.progressTaskData,
     this.canceletTaskData,
     this.completedTaskData,
+    this.taskStatus = "",
   });
 
   ApiRequestState copyWith({
@@ -50,6 +52,7 @@ class ApiRequestState {
     List<TaskDataModel>? newTaskData,
     List<TaskDataModel>? progressTaskData,
     List<TaskDataModel>? canceletTaskData,
+    String? taskStatus,
   }) {
     return ApiRequestState(
       userModel: userModel ?? this.userModel,
@@ -67,6 +70,7 @@ class ApiRequestState {
       canceletTaskData: canceletTaskData ?? this.canceletTaskData,
       newTaskData: newTaskData ?? this.newTaskData,
       progressTaskData: progressTaskData ?? this.progressTaskData,
+      taskStatus: taskStatus ?? this.taskStatus,
     );
   }
 }

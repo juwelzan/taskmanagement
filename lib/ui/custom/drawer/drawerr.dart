@@ -70,6 +70,9 @@ class Drawerr extends StatelessWidget {
                       "assets/arrow-next-small-svgrepo-com.svg",
                       width: 35.w,
                     ),
+                    onTap: () {
+                      context.push("/profile");
+                    },
                   ),
                 ),
                 Expanded(

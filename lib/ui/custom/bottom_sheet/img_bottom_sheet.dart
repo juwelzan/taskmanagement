@@ -39,7 +39,7 @@ class _ImgBottomSheetState extends State<ImgBottomSheet> {
         height: 300.h,
         width: double.maxFinite,
         decoration: BoxDecoration(
-          color: Color(0xfffaf8f6),
+          color: Color(0xff22bf73).withOpacity(0.2),
           borderRadius: BorderRadius.circular(10.sp),
         ),
         child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
@@ -154,8 +154,11 @@ class _ImgBottomSheetState extends State<ImgBottomSheet> {
                   SizedBox(
                     width: 180.w,
                     child: FilledButton(
-                      onPressed: () {
+                      onPressed: () async {
                         context.read<ApiRequestBloc>().add(ImgSelectMEvent());
+                        context.read<ApiRequestBloc>().add(
+                          ImgLinkCheckEvent(imgUrlChe: false),
+                        );
                         Navigator.pop(context);
                       },
                       child: Text("Save"),
