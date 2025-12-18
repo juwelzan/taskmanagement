@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
@@ -30,11 +29,14 @@ class ProfileScreen extends StatelessWidget {
                       border: Border.all(width: 2, color: Color(0xff22bf73)),
                       borderRadius: BorderRadius.circular(100.w),
                     ),
-                    child: Image.network(
-                      "${state.userDataLocalModel?.photo}",
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Center(child: Icon(Icons.error)),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100.w),
+                      child: Image.network(
+                        "${state.userDataLocalModel?.photo}",
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Center(child: Icon(Icons.error)),
+                      ),
                     ),
                   ),
                   Gap(10),

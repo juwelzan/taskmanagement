@@ -5,7 +5,7 @@ import 'package:taskmanagement/controller/spash_controller/bloc/splash_state.dar
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   SplashBloc() : super(SplashState()) {
     on<StartSplash>((event, emit) async {
-      await Future.delayed(Duration(seconds: 4), () {
+      await Future.delayed(Duration(seconds: 5), () {
         add(EndSplash());
       });
     });

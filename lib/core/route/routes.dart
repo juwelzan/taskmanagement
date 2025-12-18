@@ -1,4 +1,5 @@
 import 'package:taskmanagement/ui/page/screen/add_task_screen.dart';
+import 'package:taskmanagement/ui/page/screen/no_internet_screen.dart';
 import 'package:taskmanagement/ui/page/screen/profile_screen.dart';
 import 'package:taskmanagement/ui/page/screen/profile_update_screen.dart';
 
@@ -142,6 +143,20 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) {
         return CustomTransitionPage(
           child: ProfileUpdateScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: "/oninternet",
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          child: NoInternetScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: Tween<double>(begin: 0.0, end: 1.0).animate(animation),

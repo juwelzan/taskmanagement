@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/spash_controller/bloc/splash_bloc.dart';
@@ -15,11 +16,10 @@ class SplashScreen extends StatelessWidget {
       child: BlocListener<SplashBloc, SplashState>(
         listener: (context, state) {
           if (state.splashEnd) {
-            context.read<ApiRequestBloc>().add(UserLoginCheck());
-            print("object sp");
+            context.read<ApiRequestBloc>().add(InternetStatusEvent());
           }
         },
-        child: Center(child: SvgPicture.asset("assets/logo.svg")),
+        child: Center(child: Lottie.asset("assets/Task-Loader.json")),
       ),
     );
   }

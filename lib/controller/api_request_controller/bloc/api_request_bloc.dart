@@ -1,7 +1,9 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taskmanagement/apps/api/api_call/api_calls.dart';
 import 'package:taskmanagement/apps/api/url/urls.dart';
@@ -18,6 +20,7 @@ import 'package:taskmanagement/core/path/path.dart';
 
 class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
   final GoRouter router;
+  late StreamSubscription<InternetStatus> _subscription;
   ApiRequestBloc(this.router) : super(ApiRequestState()) {
     on<RegistrationEvent>(_resgistration);
     on<LoginEvent>(_login);
@@ -35,6 +38,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     on<DeleteTaskEvent>(_deleteTask);
     on<TaskStatusEvent>(_taskStatus);
     on<ProfileUpdateEvent>(_profileUpdate);
+    on<InternetStatusEvent>(_internetStatusCheck);
   }
   Future<void> _resgistration(
     RegistrationEvent event,
@@ -289,10 +293,24 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     emit(state.copyWith(taskStatus: event.status));
   }
 
+  Future<void> _internetStatusCheck(
+    InternetStatusEvent event,
+    Emitter<ApiRequestState> emit,
+  ) async {
+    _subscription = InternetConnection().onStatusChange.listen((onData) {
+      if (onData == InternetStatus.connected) {
+        add(UserLoginCheck());
+      } else {
+        router.go("/oninternet");
+      }
+    });
+  }
+
   Future<void> _profileUpdate(
     ProfileUpdateEvent event,
     Emitter<ApiRequestState> emit,
   ) async {
+    SharedPreferences updateData = await SharedPreferences.getInstance();
     UdateProfileModel data = UdateProfileModel(
       lastName: event.profileUpdate.lastName,
       firstName: event.profileUpdate.firstName,
@@ -305,6 +323,28 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
       token: state.userDataLocalModel?.token,
     );
 
-    debugPrint(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      UserDataLocalModel data = UserDataLocalModel(
+        email: state.userDataLocalModel?.email,
+        firstName: event.profileUpdate.firstName,
+        lastName: event.profileUpdate.lastName,
+        photo: event.profileUpdate.photo,
+        mobile: state.userDataLocalModel?.mobile,
+        token: state.userDataLocalModel?.token,
+      );
+      updateData.setString(
+        ApiRequestState.userDataKey,
+        jsonEncode(data.toJson()),
+      );
+      SharedPreferences getData = await SharedPreferences.getInstance();
+      final usr = getData.getString(ApiRequestState.userDataKey);
+      emit(
+        state.copyWith(
+          userDataLocalModel: UserDataLocalModel.fromJson(
+            jsonDecode(usr.toString()),
+          ),
+        ),
+      );
+    }
   }
 }

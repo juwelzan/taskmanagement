@@ -79,3 +79,5 @@ class ProfileUpdateEvent extends ApiRequestEvent {
   final UdateProfileModel profileUpdate;
   ProfileUpdateEvent({required this.profileUpdate});
 }
+
+class InternetStatusEvent extends ApiRequestEvent {}
