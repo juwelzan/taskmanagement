@@ -6,6 +6,7 @@ class TaskViewContainer extends StatelessWidget {
   final VoidCallback? cancel;
   final VoidCallback? onLongPress;
   final bool isShow;
+  final String? title, subTitel, date, status;
   const TaskViewContainer({
     super.key,
     this.delete,
@@ -13,6 +14,10 @@ class TaskViewContainer extends StatelessWidget {
     this.cancel,
     required this.isShow,
     this.onLongPress,
+    this.title,
+    this.subTitel,
+    this.date,
+    this.status,
   });
 
   @override
@@ -26,7 +31,7 @@ class TaskViewContainer extends StatelessWidget {
             height: 100.h,
             width: double.maxFinite,
             decoration: BoxDecoration(
-              color: Color(0xffffffff),
+              color: Color(0xff2dffb5).withOpacity(0.1),
               border: Border.all(width: 3.w, color: Color(0xff2dffb5)),
               borderRadius: BorderRadius.circular(10.sp),
             ),
@@ -35,12 +40,12 @@ class TaskViewContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AutoSizeText(
-                  "Lorem Ipsum is simply dummy, ",
+                  title ?? "",
                   maxLines: 1,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 AutoSizeText(
-                  "Lorem Ipsum is simply dummy, ",
+                  subTitel ?? "",
                   maxLines: 2,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
@@ -50,11 +55,11 @@ class TaskViewContainer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Date : 10:29",
+                      date ?? "",
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     Text(
-                      "Status",
+                      status ?? "",
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],

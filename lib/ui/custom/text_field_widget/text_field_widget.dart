@@ -8,6 +8,7 @@ class TextFieldWidget extends StatelessWidget {
   final TextInputType? textInputType;
   final List<TextInputFormatter>? inputFormatters;
   final bool obscureText;
+  final int maxLines;
 
   const TextFieldWidget({
     super.key,
@@ -19,11 +20,13 @@ class TextFieldWidget extends StatelessWidget {
     this.textInputType,
     this.inputFormatters,
     this.obscureText = false,
+    this.maxLines = 1,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       obscureText: obscureText,
       keyboardType: textInputType,
       inputFormatters: inputFormatters,

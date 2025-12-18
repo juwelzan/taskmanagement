@@ -5,10 +5,11 @@ import 'package:http/http.dart' as http;
 import 'package:taskmanagement/core/path/path.dart';
 
 class ApiCalls {
-  static Future<http.Response> RequestPost(
-    String uri,
-    Map<String, String> body,
-  ) async {
+  static Future<http.Response> RequestPost({
+    required String uri,
+    required Map<String, String> body,
+    String? token,
+  }) async {
     try {
       final url = Uri.parse(uri);
       final response = await http.post(
@@ -16,6 +17,7 @@ class ApiCalls {
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json",
+          "token": token ?? "",
         },
         body: body != null ? jsonEncode(body) : null,
       );

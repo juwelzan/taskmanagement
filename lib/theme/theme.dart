@@ -57,7 +57,9 @@ final ThemeData light = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      fixedSize: Size(70.w, double.maxFinite),
+      foregroundColor: Color(0xffffffff),
+      backgroundColor: Color(0xff22bf73),
+
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.sp)),
     ),
   ),

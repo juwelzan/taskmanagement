@@ -9,4 +9,5 @@ class Urls {
   static String CompletedTaskGetUrl() => "$baseUrl/listTaskByStatus/Completed";
   static String CanceledTaskGetUrl() => "$baseUrl/listTaskByStatus/Canceled";
   static String DeleteTaskUrl(String taskId) => "$baseUrl/deleteTask/$taskId";
+  static String AddNewTaskUrl() => "$baseUrl/createTask";
 }

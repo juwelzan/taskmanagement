@@ -8,6 +8,7 @@ import 'package:taskmanagement/apps/api/url/urls.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
 import 'package:taskmanagement/core/models/login_model/login_model.dart';
+import 'package:taskmanagement/core/models/new_task_add_model/new_task_add_model.dart';
 import 'package:taskmanagement/core/models/registration_model/registration_model.dart';
 import 'package:taskmanagement/core/models/resgistration_status_model/resgistration_status_model.dart';
 import 'package:taskmanagement/core/models/task_model/task_mode.dart';
@@ -28,7 +29,9 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     on<UserLoginCheck>(_userLoginCheck);
     on<EmailUseMessage>(_emailUseMessage);
     on<LogoutUser>(_logoutUser);
-    on<GetTaskData>(_getTaskData);
+    on<GetTaskDataEvent>(_getTaskData);
+    on<AddNewTaskEvent>(_addNewTask);
+    on<DeleteTaskEvent>(_deleteTask);
   }
   Future<void> _resgistration(
     RegistrationEvent event,
@@ -41,8 +44,10 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
       email: event.loginDta.email,
       password: event.loginDta.password,
     );
-    final response = await ApiCalls.RequestPost(Urls.LoginUrl(), body.toJson());
-    // emit(state.copyWith(loginStatusModel: LoginStatusModel.fromJson(response)));
+    final response = await ApiCalls.RequestPost(
+      uri: Urls.LoginUrl(),
+      body: body.toJson(),
+    );
 
     if (response.statusCode == 200) {
       UserModel data = UserModel.fromJson(jsonDecode(response.body));
@@ -57,7 +62,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
         ApiRequestState.userDataKey,
         jsonEncode(user.toJson()),
       );
-      // add(GetTaskData());
+      add(GetTaskDataEvent());
       router.go("/home");
     }
 
@@ -102,8 +107,8 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
       photo: event.registrationModel.photo,
     );
     final response = await ApiCalls.RequestPost(
-      Urls.RegistrationUrl(),
-      body.toJson(),
+      uri: Urls.RegistrationUrl(),
+      body: body.toJson(),
     );
     if (response.statusCode == 200) {
       emit(
@@ -172,7 +177,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
           userDataLocalModel: UserDataLocalModel.fromJson(jsonDecode(data)),
         ),
       );
-
+      add(GetTaskDataEvent());
       router.go("/home");
     }
     if (data == null || data == "") {
@@ -181,28 +186,31 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
   }
 
   Future<void> _getTaskData(
-    GetTaskData event,
+    GetTaskDataEvent event,
     Emitter<ApiRequestState> emit,
   ) async {
-    debugPrint("data kcall");
+    add(LodingSpin(lodingSpin: true));
     try {
       final newTask = await ApiCalls.RequestGet(
         uri: Urls.NewTaskGetUrl(),
-        token: state.userModel?.token,
+        token: state.userDataLocalModel?.token,
       );
       final completedTask = await ApiCalls.RequestGet(
-        uri: Urls.NewTaskGetUrl(),
-        token: state.userModel?.token,
+        uri: Urls.CompletedTaskGetUrl(),
+        token: state.userDataLocalModel?.token,
       );
       final canceledTask = await ApiCalls.RequestGet(
-        uri: Urls.NewTaskGetUrl(),
-        token: state.userModel?.token,
+        uri: Urls.CanceledTaskGetUrl(),
+        token: state.userDataLocalModel?.token,
       );
       final progressTask = await ApiCalls.RequestGet(
-        uri: Urls.NewTaskGetUrl(),
-        token: state.userModel?.token,
+        uri: Urls.ProgressTaskGetUrl(),
+        token: state.userDataLocalModel?.token,
       );
-
+      debugPrint(
+        "${progressTask.statusCode}: ${canceledTask.statusCode} : ${completedTask.statusCode} : ${newTask.statusCode}",
+      );
+      debugPrint("${state.userDataLocalModel?.token}");
       if (newTask.statusCode == 200 &&
           completedTask.statusCode == 200 &&
           canceledTask.statusCode == 200 &&
@@ -228,9 +236,46 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
           ),
         );
         debugPrint(state.newTaskData?.length.toString());
+        add(LodingSpin(lodingSpin: false));
       }
     } catch (e) {
       throw (e.toString());
+    }
+  }
+
+  Future<void> _addNewTask(
+    AddNewTaskEvent event,
+    Emitter<ApiRequestState> emit,
+  ) async {
+    AddNewTaskModel body = AddNewTaskModel(
+      title: event.addNewTaskModel.title,
+      description: event.addNewTaskModel.description,
+      status: "New",
+    );
+
+    final response = await ApiCalls.RequestPost(
+      uri: Urls.AddNewTaskUrl(),
+      body: body.toJson(),
+      token: state.userDataLocalModel?.token,
+    );
+
+    if (response.statusCode == 200) {
+      add(GetTaskDataEvent());
+      router.go("/home");
+    }
+  }
+
+  Future<void> _deleteTask(
+    DeleteTaskEvent event,
+    Emitter<ApiRequestState> emit,
+  ) async {
+    final response = await ApiCalls.RequestGet(
+      uri: Urls.DeleteTaskUrl(event.id),
+      token: state.userDataLocalModel?.token,
+    );
+
+    if (response.statusCode == 200) {
+      add(GetTaskDataEvent());
     }
   }
 }

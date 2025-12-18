@@ -16,7 +16,7 @@ class Drawerr extends StatelessWidget {
         padding: EdgeInsets.only(top: 50.h, left: 10.w, right: 10.w),
         height: double.maxFinite,
         width: double.maxFinite,
-        decoration: BoxDecoration(color: Color(0xffffffff)),
+        decoration: BoxDecoration(color: Color(0xff22bf73).withOpacity(0.2)),
 
         child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
           builder: (context, state) {
@@ -34,12 +34,12 @@ class Drawerr extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(width: 2, color: Color(0xff22bf73)),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            state.userDataLocalModel!.photo.toString(),
-                          ),
-                        ),
+                      ),
+                      child: Image.network(
+                        state.userDataLocalModel!.photo.toString(),
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(child: Icon(Icons.error));
+                        },
                       ),
                     ),
                   ),
@@ -100,6 +100,7 @@ class Drawerr extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return AlertBottomSheet(
+                                  titel: "Do you want to Logout",
                                   onTapCancel: () {
                                     Navigator.pop(context);
                                   },

@@ -5,11 +5,13 @@ import 'package:taskmanagement/controller/api_request_controller/bloc/api_reques
 import '../../../core/path/path.dart';
 
 class AppsBar extends StatelessWidget implements PreferredSizeWidget {
-  const AppsBar({super.key});
+  final VoidCallback? dowerOpen;
+  const AppsBar({super.key, this.dowerOpen});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: Color(0xff21bf73),
       title: BlocBuilder<ApiRequestBloc, ApiRequestState>(
         builder: (context, state) {
@@ -19,13 +21,16 @@ class AppsBar extends StatelessWidget implements PreferredSizeWidget {
                 borderRadius: BorderRadius.circular(50.sp),
                 child: CircleAvatar(
                   radius: 25,
-                  child: Image.network(
-                    state.userDataLocalModel!.photo.toString(),
-                    fit: BoxFit.cover,
-                    width: double.maxFinite,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(child: Icon(Icons.error));
-                    },
+                  child: GestureDetector(
+                    onTap: dowerOpen,
+                    child: Image.network(
+                      state.userDataLocalModel!.photo.toString(),
+                      fit: BoxFit.cover,
+                      width: double.maxFinite,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(child: Icon(Icons.error));
+                      },
+                    ),
                   ),
                 ),
               ),

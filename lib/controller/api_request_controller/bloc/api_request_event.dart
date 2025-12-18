@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 
 import 'package:taskmanagement/core/models/login_model/login_model.dart';
+import 'package:taskmanagement/core/models/new_task_add_model/new_task_add_model.dart';
 import 'package:taskmanagement/core/models/registration_model/registration_model.dart';
 
 class ApiRequestEvent {}
@@ -56,4 +57,14 @@ class UserLoginCheck extends ApiRequestEvent {}
 
 class LogoutUser extends ApiRequestEvent {}
 
-class GetTaskData extends ApiRequestEvent {}
+class GetTaskDataEvent extends ApiRequestEvent {}
+
+class AddNewTaskEvent extends ApiRequestEvent {
+  final AddNewTaskModel addNewTaskModel;
+  AddNewTaskEvent({required this.addNewTaskModel});
+}
+
+class DeleteTaskEvent extends ApiRequestEvent {
+  final String id;
+  DeleteTaskEvent({required this.id});
+}

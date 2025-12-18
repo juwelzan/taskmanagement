@@ -1,3 +1,5 @@
+import 'package:taskmanagement/ui/page/screen/add_task_screen.dart';
+
 import '../path/path.dart';
 
 final GoRouter router = GoRouter(
@@ -96,6 +98,20 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) {
         return CustomTransitionPage(
           child: RegistrationScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: "/addtask",
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          child: AddTaskScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
