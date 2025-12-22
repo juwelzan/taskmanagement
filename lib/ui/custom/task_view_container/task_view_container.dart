@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:intl/intl.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
 class TaskViewContainer extends StatelessWidget {
@@ -63,7 +64,9 @@ class TaskViewContainer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      date ?? "",
+                      DateFormat(
+                        "yyyy-MMM-dd, hh:mm:a",
+                      ).format(DateTime.parse(date!)),
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     Text(

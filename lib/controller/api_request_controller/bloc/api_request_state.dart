@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:image_picker/image_picker.dart';
 import 'package:taskmanagement/core/models/resgistration_status_model/resgistration_status_model.dart';
 import 'package:taskmanagement/core/models/status_select_model/status_select_model.dart';
 import 'package:taskmanagement/core/models/task_data_model/task_data_model.dart';

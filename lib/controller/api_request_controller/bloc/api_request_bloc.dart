@@ -200,10 +200,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
         uri: Urls.ProgressTaskGetUrl(),
         token: token,
       );
-      print(progressTask.statusCode);
-      print(canceledTask.statusCode);
-      print(completedTask.statusCode);
-      print(token);
+
       if (newTask.statusCode == 200 &&
           completedTask.statusCode == 200 &&
           canceledTask.statusCode == 200 &&
@@ -219,8 +216,6 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
         TaskMode progressTaskData = TaskMode.formJson(
           jsonDecode(progressTask.body),
         );
-        print(completedTaskData);
-        print(state.completedTaskData?[1].title);
         emit(
           state.copyWith(
             newTaskData: newTaskData.taskData,
@@ -234,6 +229,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     } catch (e) {
       throw (e.toString());
     }
+    add(LodingSpin(lodingSpin: false));
   }
 
   Future<void> _addNewTask(
