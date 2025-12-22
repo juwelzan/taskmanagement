@@ -3,32 +3,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
+
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
-class ImgBottomSheet extends StatefulWidget {
+class ImgBottomSheet extends StatelessWidget {
   ImgBottomSheet({super.key});
-
-  @override
-  State<ImgBottomSheet> createState() => _ImgBottomSheetState();
-}
-
-class _ImgBottomSheetState extends State<ImgBottomSheet> {
-  late final TextEditingController controller;
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    controller = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +16,10 @@ class _ImgBottomSheetState extends State<ImgBottomSheet> {
       padding: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 40.h),
       child: Container(
         padding: EdgeInsets.all(8),
-        height: 300.h,
+        height: 200.h,
         width: double.maxFinite,
         decoration: BoxDecoration(
-          color: Color(0xff22bf73).withOpacity(0.2),
+          color: Color(0xff22bf73),
           borderRadius: BorderRadius.circular(10.sp),
         ),
         child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
@@ -59,112 +39,44 @@ class _ImgBottomSheetState extends State<ImgBottomSheet> {
                   ],
                 ),
 
-                if (!state.imgUrlCheck) ...[
-                  Gap(50.h),
-                  Form(
-                    key: _formKey,
-                    child: TextFieldWidget(
-                      errorText: state.imgUrlError,
-                      controller: controller,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return "enter img url";
-                        }
-                        return null;
-                      },
-                      hintText: "Enter Image URL",
-                    ),
-                  ),
-
-                  Gap(40.h),
-                  SizedBox(
-                    width: 180.w,
-                    child: FilledButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          context.read<ApiRequestBloc>().add(
-                            ImgUrlfatch(imgUrl: controller.text.trim()),
-                          );
-                          context.read<ApiRequestBloc>().add(
-                            ImgLinkCheckEvent(imgUrlChe: true),
-                          );
-                        }
-                      },
-                      child: Text("Check Image"),
-                    ),
-                  ),
-                ],
-                if (state.imgUrlCheck) ...[
-                  Gap(20.h),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: CircleAvatar(
-                      radius: 60.sp,
-
-                      child: Image.network(
-                        state.imgUrl,
-                        fit: BoxFit.cover,
-                        width: double.maxFinite,
-                        errorBuilder: (context, error, stackTrace) {
-                          context.read<ApiRequestBloc>().add(
-                            ImgUrlErrorM(imgUrlError: "img url error"),
-                          );
-                          context.read<ApiRequestBloc>().add(
-                            ImgLinkCheckEvent(imgUrlChe: false),
-                          );
-
-                          return Container(
-                            height: 120,
-                            width: 120,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.broken_image,
-                              color: Colors.red,
-                              size: 40,
-                            ),
-                          );
+                Gap(10.h),
+                Text("Select Profile Photo"),
+                Gap(60.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: 50.h,
+                      width: 109.w,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffffffff),
+                          foregroundColor: Color(0xff000000),
+                        ),
+                        onPressed: () {
+                          context.read<ApiRequestBloc>().add(ImagePikGallery());
                         },
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
-                          }
-
-                          return SizedBox(
-                            height: 120,
-                            width: 120,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                value:
-                                    loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            ),
-                          );
-                        },
+                        label: Text("Gallery"),
+                        icon: Icon(Icons.photo),
                       ),
                     ),
-                  ),
-                  Gap(40.h),
-                  SizedBox(
-                    width: 180.w,
-                    child: FilledButton(
-                      onPressed: () async {
-                        context.read<ApiRequestBloc>().add(ImgSelectMEvent());
-                        context.read<ApiRequestBloc>().add(
-                          ImgLinkCheckEvent(imgUrlChe: false),
-                        );
-                        Navigator.pop(context);
-                      },
-                      child: Text("Save"),
+                    SizedBox(
+                      height: 50.h,
+                      width: 109.w,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffffffff),
+                          foregroundColor: Color(0xff000000),
+                        ),
+                        onPressed: () {
+                          context.read<ApiRequestBloc>().add(ImagePikCamera());
+                        },
+                        label: Text("Camera"),
+                        icon: Icon(Icons.camera_alt),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ],
             );
           },

@@ -1,8 +1,17 @@
+// ignore_for_file: prefer_final_fields
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
+import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
+import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
+
 import '../../../core/path/path.dart';
 
 class EmailScreen extends StatelessWidget {
-  const EmailScreen({super.key});
-
+  EmailScreen({super.key});
+  TextEditingController controller = TextEditingController();
+  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BackGroundWidget(
@@ -22,11 +31,56 @@ class EmailScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall,
             ),
             Gap(20.h),
-            TextFieldWidget(hintText: "email"),
-            Gap(40.h),
-            FilledButton(
-              onPressed: () {},
-              child: Icon(Icons.arrow_circle_right_outlined),
+            Form(
+              key: _formkey,
+              child: TextFieldWidget(
+                controller: controller,
+                hintText: "email",
+                textInputType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value.toString().isEmpty ||
+                      value == null ||
+                      value == "") {
+                    return "enter email";
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Gap(20.h),
+            BlocBuilder<ApiRequestBloc, ApiRequestState>(
+              builder: (context, state) {
+                if (state.notUserFount != null || state.notUserFount != "") {
+                  return Text(
+                    state.notUserFount ?? "",
+                    style: TextStyle(color: Colors.red),
+                  );
+                }
+                return SizedBox();
+              },
+            ),
+            Gap(20.h),
+            BlocBuilder<ApiRequestBloc, ApiRequestState>(
+              builder: (context, state) {
+                if (!state.lodingSpin) {
+                  return FilledButton(
+                    onPressed: () {
+                      if (_formkey.currentState!.validate()) {
+                        context.read<ApiRequestBloc>().add(
+                          EmailOPTSendEvent(email: controller.text),
+                        );
+                      }
+                    },
+                    child: Icon(Icons.arrow_circle_right_outlined, size: 25.sp),
+                  );
+                }
+                if (state.lodingSpin) {
+                  return Center(
+                    child: Lottie.asset("assets/loding.json", width: 40.w),
+                  );
+                }
+                return SizedBox();
+              },
             ),
             Gap(50.h),
             Center(

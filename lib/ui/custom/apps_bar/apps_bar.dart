@@ -23,14 +23,13 @@ class AppsBar extends StatelessWidget implements PreferredSizeWidget {
                   radius: 25,
                   child: GestureDetector(
                     onTap: dowerOpen,
-                    child: Image.network(
-                      state.userDataLocalModel!.photo.toString(),
-                      fit: BoxFit.cover,
-                      width: double.maxFinite,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Center(child: Icon(Icons.error));
-                      },
-                    ),
+                    child: state.profileImg != null
+                        ? Image.file(
+                            state.profileImg!,
+                            fit: BoxFit.cover,
+                            width: double.maxFinite,
+                          )
+                        : Center(child: Icon(Icons.person, size: 40.sp)),
                   ),
                 ),
               ),
@@ -39,12 +38,12 @@ class AppsBar extends StatelessWidget implements PreferredSizeWidget {
                 textAlign: TextAlign.start,
                 text: TextSpan(
                   text:
-                      "${state.userDataLocalModel?.firstName} ${state.userDataLocalModel?.lastName}",
+                      "${state.userProfileModel?.firstName} ${state.userProfileModel?.lastName}",
                   style: Theme.of(context).textTheme.headlineSmall,
                   children: [
                     TextSpan(text: "\n"),
                     TextSpan(
-                      text: state.userDataLocalModel?.email,
+                      text: state.userProfileModel?.email,
                       style: Theme.of(
                         context,
                       ).textTheme.headlineSmall?.copyWith(fontSize: 10.sp),

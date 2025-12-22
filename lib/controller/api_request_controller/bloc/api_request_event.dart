@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, non_constant_identifier_names
 
 import 'package:taskmanagement/core/models/login_model/login_model.dart';
 import 'package:taskmanagement/core/models/new_task_add_model/new_task_add_model.dart';
@@ -81,3 +81,53 @@ class ProfileUpdateEvent extends ApiRequestEvent {
 }
 
 class InternetStatusEvent extends ApiRequestEvent {}
+
+class StatusDropDownOpen extends ApiRequestEvent {
+  final bool isStatusDropDownOpen;
+  StatusDropDownOpen({required this.isStatusDropDownOpen});
+}
+
+class StatusSelectEvent extends ApiRequestEvent {
+  final String color, icon;
+  final String StstusName;
+
+  StatusSelectEvent({
+    required this.color,
+    required this.StstusName,
+    required this.icon,
+  });
+}
+
+class StatusUpdataApiEvent extends ApiRequestEvent {
+  final String StstusName, taskId;
+
+  StatusUpdataApiEvent({required this.StstusName, required this.taskId});
+}
+
+class GetUseProfileData extends ApiRequestEvent {}
+
+class ImagePikGallery extends ApiRequestEvent {}
+
+class ImagePikCamera extends ApiRequestEvent {}
+
+class EmailOPTSendEvent extends ApiRequestEvent {
+  final String email;
+
+  EmailOPTSendEvent({required this.email});
+}
+
+class OPTVerifyEvent extends ApiRequestEvent {
+  final String email, otp;
+
+  OPTVerifyEvent({required this.email, required this.otp});
+}
+
+class ResetPasswordEvent extends ApiRequestEvent {
+  final String email, otp, password;
+
+  ResetPasswordEvent({
+    required this.email,
+    required this.otp,
+    required this.password,
+  });
+}

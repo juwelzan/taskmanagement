@@ -1,76 +1,88 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:taskmanagement/core/models/resgistration_status_model/resgistration_status_model.dart';
+import 'package:taskmanagement/core/models/status_select_model/status_select_model.dart';
 import 'package:taskmanagement/core/models/task_data_model/task_data_model.dart';
-import 'package:taskmanagement/core/models/user_model/user_model.dart';
+
+import 'package:taskmanagement/core/models/user_profile_model/user_prodile_model.dart';
 
 class ApiRequestState {
-  final UserModel? userModel;
-  final bool imgUrlCheck;
-  final String imgUrl;
-  final String imgUrlError;
-  final ResgistrationStatusModel? resgistrationStatusModel;
-  final String imgSelectM;
+  final UserProfileModel? userProfileModel;
+  final File? profileImg;
+
+  final NotFountModel? notFountModel;
+
   final bool lodingSpin;
-  final String emailUseMessage, emailPassWrongMessg;
-  final UserDataLocalModel? userDataLocalModel;
-  static const String userDataKey = "userData";
+
+  static const String userToken = "token";
+  static const String userKey = "user";
+  static const String imgKey = "img";
   final List<TaskDataModel>? newTaskData;
   final List<TaskDataModel>? progressTaskData;
   final List<TaskDataModel>? canceletTaskData;
   final List<TaskDataModel>? completedTaskData;
-  final String? taskStatus;
+  final String? taskStatus, otpSendEmai, notUserFount, invalidOTP, otp;
+  final StatusSelectModel? statusSelectModel;
+  final bool isStatusDropDownOpen;
 
   ApiRequestState({
-    this.userModel,
-    this.imgUrlCheck = false,
-    this.imgUrl = "",
-    this.imgUrlError = "",
-    this.resgistrationStatusModel,
-    this.imgSelectM = "Profile image not set.",
+    this.notFountModel,
+
     this.lodingSpin = false,
-    this.emailUseMessage = "",
-    this.userDataLocalModel,
-    this.emailPassWrongMessg = "",
+
     this.newTaskData,
     this.progressTaskData,
     this.canceletTaskData,
     this.completedTaskData,
     this.taskStatus = "",
+    this.statusSelectModel,
+    this.isStatusDropDownOpen = false,
+    this.userProfileModel,
+    this.profileImg,
+    this.otpSendEmai,
+    this.notUserFount,
+    this.invalidOTP,
+    this.otp,
   });
 
   ApiRequestState copyWith({
-    UserModel? userModel,
-    bool? imgUrlCheck,
-    String? imgUrl,
-    String? imgUrlError,
-    ResgistrationStatusModel? resgistrationStatusModel,
-    String? imgSelectM,
+    File? profileImg,
+    UserProfileModel? userProfileModel,
+
+    NotFountModel? notFountModel,
     bool? lodingSpin,
-    String? emailUseMessage,
-    String? emailPassWrongMessg,
-    UserDataLocalModel? userDataLocalModel,
+
     List<TaskDataModel>? completedTaskData,
     List<TaskDataModel>? newTaskData,
     List<TaskDataModel>? progressTaskData,
     List<TaskDataModel>? canceletTaskData,
     String? taskStatus,
+    otpSendEmai,
+    notUserFount,
+    invalidOTP,
+    otp,
+    StatusSelectModel? statusSelectModel,
+    bool? isStatusDropDownOpen,
   }) {
     return ApiRequestState(
-      userModel: userModel ?? this.userModel,
-      imgUrlCheck: imgUrlCheck ?? this.imgUrlCheck,
-      imgUrl: imgUrl ?? this.imgUrl,
-      imgUrlError: imgUrlError ?? this.imgUrlError,
-      resgistrationStatusModel:
-          resgistrationStatusModel ?? this.resgistrationStatusModel,
-      imgSelectM: imgSelectM ?? this.imgSelectM,
+      notFountModel: notFountModel ?? this.notFountModel,
+
       lodingSpin: lodingSpin ?? this.lodingSpin,
-      emailUseMessage: emailUseMessage ?? this.emailUseMessage,
-      userDataLocalModel: userDataLocalModel ?? this.userDataLocalModel,
-      emailPassWrongMessg: emailPassWrongMessg ?? this.emailPassWrongMessg,
+
       completedTaskData: completedTaskData ?? this.completedTaskData,
       canceletTaskData: canceletTaskData ?? this.canceletTaskData,
       newTaskData: newTaskData ?? this.newTaskData,
       progressTaskData: progressTaskData ?? this.progressTaskData,
       taskStatus: taskStatus ?? this.taskStatus,
+      statusSelectModel: statusSelectModel ?? this.statusSelectModel,
+      isStatusDropDownOpen: isStatusDropDownOpen ?? this.isStatusDropDownOpen,
+      userProfileModel: userProfileModel ?? this.userProfileModel,
+      profileImg: profileImg ?? this.profileImg,
+      invalidOTP: invalidOTP ?? this.invalidOTP,
+      notUserFount: notUserFount ?? this.notUserFount,
+      otp: otp ?? this.otp,
+      otpSendEmai: otpSendEmai ?? this.otpSendEmai,
     );
   }
 }

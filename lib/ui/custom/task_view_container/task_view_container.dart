@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:taskmanagement/core/path/path.dart';
 
 class TaskViewContainer extends StatelessWidget {
@@ -7,6 +9,8 @@ class TaskViewContainer extends StatelessWidget {
   final VoidCallback? onLongPress;
   final bool isShow;
   final String? title, subTitel, date, status;
+  final String borderColor;
+
   const TaskViewContainer({
     super.key,
     this.delete,
@@ -18,6 +22,7 @@ class TaskViewContainer extends StatelessWidget {
     this.subTitel,
     this.date,
     this.status,
+    required this.borderColor,
   });
 
   @override
@@ -31,8 +36,11 @@ class TaskViewContainer extends StatelessWidget {
             height: 100.h,
             width: double.maxFinite,
             decoration: BoxDecoration(
-              color: Color(0xff2dffb5).withOpacity(0.1),
-              border: Border.all(width: 3.w, color: Color(0xff2dffb5)),
+              color: Color(0xffffffff).withOpacity(0.7),
+              border: Border.all(
+                width: 3.w,
+                color: Color(int.parse(borderColor)),
+              ),
               borderRadius: BorderRadius.circular(10.sp),
             ),
             child: Column(
@@ -74,7 +82,7 @@ class TaskViewContainer extends StatelessWidget {
             height: 100.h,
             width: double.maxFinite,
             decoration: BoxDecoration(
-              color: Color(0xffffffff),
+              color: Color(0xff000000),
               borderRadius: BorderRadius.circular(10.sp),
               border: Border.all(width: 3.w, color: Color(0xff2dffb5)),
             ),
@@ -86,7 +94,11 @@ class TaskViewContainer extends StatelessWidget {
                   children: [
                     IconButton(
                       onPressed: cancel,
-                      icon: Image.asset("assets/icon/remove.png", width: 20.sp),
+                      icon: Image.asset(
+                        "assets/icon/remove.png",
+                        width: 20.sp,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),

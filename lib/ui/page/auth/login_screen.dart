@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields, must_be_immutable
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
@@ -34,6 +35,7 @@ class LoginScreen extends StatelessWidget {
 
                 Gap(30.h),
                 TextFieldWidget(
+                  textInputType: TextInputType.emailAddress,
                   hintText: "Email",
                   controller: _emailController,
                   validator: (value) {
@@ -45,6 +47,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 Gap(20.h),
                 TextFieldWidget(
+                  textInputType: TextInputType.visiblePassword,
                   hintText: "Password",
                   controller: _passwordController,
                   validator: (value) {
@@ -58,9 +61,9 @@ class LoginScreen extends StatelessWidget {
                 BlocBuilder<ApiRequestBloc, ApiRequestState>(
                   builder: (context, state) {
                     return Visibility(
-                      visible: state.emailPassWrongMessg != "",
+                      visible: state.notFountModel?.useEmail != null,
                       child: Text(
-                        state.emailPassWrongMessg,
+                        state.notFountModel?.useEmail ?? "",
                         style: Theme.of(
                           context,
                         ).textTheme.bodySmall?.copyWith(color: Colors.red),
@@ -71,24 +74,32 @@ class LoginScreen extends StatelessWidget {
                 Gap(20.h),
                 BlocBuilder<ApiRequestBloc, ApiRequestState>(
                   builder: (context, state) {
-                    return FilledButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          context.read<ApiRequestBloc>().add(
-                            LoginEvent(
-                              loginDta: LoginModel(
-                                email: _emailController.text,
-                                password: _passwordController.text,
+                    if (!state.lodingSpin) {
+                      return FilledButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            context.read<ApiRequestBloc>().add(
+                              LoginEvent(
+                                loginDta: LoginModel(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                ),
                               ),
-                            ),
-                          );
-                        }
-                      },
-                      child: Icon(
-                        Icons.arrow_circle_right_outlined,
-                        size: 25.sp,
-                      ),
-                    );
+                            );
+                          }
+                        },
+                        child: Icon(
+                          Icons.arrow_circle_right_outlined,
+                          size: 25.sp,
+                        ),
+                      );
+                    }
+                    if (state.lodingSpin) {
+                      return Center(
+                        child: Lottie.asset("assets/loding.json", width: 40.w),
+                      );
+                    }
+                    return SizedBox();
                   },
                 ),
                 Gap(40.h),

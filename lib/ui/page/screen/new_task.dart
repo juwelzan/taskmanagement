@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_is_empty
+// ignore_for_file: prefer_is_empty, unnecessary_underscores
 
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +8,7 @@ import 'package:taskmanagement/controller/api_request_controller/bloc/api_reques
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
 import 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
 import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
+import 'package:taskmanagement/ui/custom/custom_about_dilog/custom_about_dilog.dart';
 import 'package:taskmanagement/ui/custom/task_view_container/task_view_container.dart';
 
 import '../../../core/path/path.dart';
@@ -20,7 +21,7 @@ class NewTask extends StatelessWidget {
     return Container(
       height: double.maxFinite,
       width: double.maxFinite,
-      decoration: BoxDecoration(color: Color(0xff22bf73).withOpacity(0.2)),
+      decoration: BoxDecoration(color: Color(0xff05339C).withOpacity(0.4)),
       child: RefreshIndicator(
         onRefresh: () async {
           context.read<ApiRequestBloc>().add(GetTaskDataEvent());
@@ -52,6 +53,7 @@ class NewTask extends StatelessWidget {
                     return BlocBuilder<PageBloc, PageState>(
                       builder: (context, pageState) {
                         return TaskViewContainer(
+                          borderColor: "0xff05339C",
                           date: task?.createdDate,
                           status: task?.status,
                           subTitel: task?.description,
@@ -60,7 +62,15 @@ class NewTask extends StatelessWidget {
                           onLongPress: () {
                             context.read<PageBloc>().add(Dilog(index: index));
                             context.read<ApiRequestBloc>().add(
-                              TaskStatusEvent(status: task!.status),
+                              StatusSelectEvent(
+                                StstusName: "New",
+                                color: "0xff05339C",
+                                icon: "assets/icon/checklist.png",
+                              ),
+                            );
+
+                            context.read<ApiRequestBloc>().add(
+                              TaskStatusEvent(status: "New"),
                             );
                           },
                           cancel: () {
@@ -69,44 +79,14 @@ class NewTask extends StatelessWidget {
                             );
                           },
                           edit: () {
-                            showDialog(
+                            showGeneralDialog(
                               context: context,
-                              builder: (context) => AlertDialog(
-                                backgroundColor: Color(0xff22bf73),
-                                title: Text("Edit Status"),
-                                //     actions: [
-                                //       CheckboxListTile(
-                                //         title: Text("New"),
-                                //         value: apiState.taskStatus == "New",
-                                //         onChanged: (value) {
-                                //           context.read<ApiRequestBloc>().add(
-                                //   TaskStatusEvent(status: "New"),
-                                // );
-                                //         },
-                                //       ),
-                                //       CheckboxListTile(
-                                //         title: Text("Completed"),
-                                //         value: apiState.taskStatus,
-                                //         onChanged: (value) {
-                                //           context.read<ApiRequestBloc>().add(
-                                //   TaskStatusEvent(status: task!.status),
-                                // );
-                                //         },
-                                //       ),
-                                //       CheckboxListTile(
-                                //         title: Text("Canceled"),
-                                //         value: apiState.taskStatus == "Canceled",
-                                //         onChanged: (value) {
-
-                                //         },
-                                //       ),
-                                //       CheckboxListTile(
-                                //         title: Text("Progress"),
-                                //         value: apiState.taskStatus == "Progress",
-                                //         onChanged: (value) {},
-                                //       ),
-                                //     ],
-                              ),
+                              barrierDismissible: false,
+                              barrierLabel: "",
+                              barrierColor: Colors.transparent,
+                              pageBuilder: (_, __, ___) {
+                                return CustomAboutDilog(taskId: task!.id);
+                              },
                             );
                           },
                           delete: () {

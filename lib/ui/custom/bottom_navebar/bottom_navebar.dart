@@ -81,7 +81,7 @@ class BottomNavebar extends StatelessWidget {
                       leble: "New Task",
                       index: 2,
                       btnColor: state.page == 0
-                          ? Color(0xff22bf73)
+                          ? Color(0xff05339C)
                           : Colors.transparent,
                       textColor: state.page == 0
                           ? Color(0xffffffff)
@@ -109,7 +109,7 @@ class BottomNavebar extends StatelessWidget {
                       leble: "Canceled",
                       index: 1,
                       btnColor: state.page == 2
-                          ? Color(0xff22bf73)
+                          ? Color(0xffDE1A58)
                           : Colors.transparent,
                       textColor: state.page == 2
                           ? Color(0xffffffff)
@@ -123,7 +123,7 @@ class BottomNavebar extends StatelessWidget {
                       leble: "Progress",
                       index: 1,
                       btnColor: state.page == 3
-                          ? Color(0xff22bf73)
+                          ? Color(0xff350085)
                           : Colors.transparent,
                       textColor: state.page == 3
                           ? Color(0xffffffff)

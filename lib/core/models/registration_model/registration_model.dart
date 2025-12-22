@@ -4,7 +4,6 @@ class RegistrationModel {
   final String lastName;
   final String mobile;
   final String password;
-  final String photo;
 
   RegistrationModel({
     required this.email,
@@ -12,7 +11,6 @@ class RegistrationModel {
     required this.lastName,
     required this.mobile,
     required this.password,
-    required this.photo,
   });
   Map<String, String> toJson() {
     return {
@@ -21,7 +19,6 @@ class RegistrationModel {
       "lastName": lastName,
       "mobile": mobile,
       "password": password,
-      "photo": photo,
     };
   }
 }

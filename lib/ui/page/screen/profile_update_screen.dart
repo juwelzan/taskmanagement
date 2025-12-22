@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
@@ -17,91 +19,102 @@ class ProfileUpdateScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
           builder: (context, state) {
-            lastName.text = state.userDataLocalModel?.lastName ?? "";
-            fastName.text = state.userDataLocalModel?.firstName ?? "";
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Update Profile",
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                  ],
-                ),
-                Gap(20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        showBottomSheet(
-                          context: context,
-                          builder: (context) => ImgBottomSheet(),
-                        );
-                      },
-                      child: Container(
-                        height: 80.h,
-                        width: 80.h,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 2,
-                            color: Color(0xff22bf73),
+            lastName.text = state.userProfileModel?.lastName ?? "";
+            fastName.text = state.userProfileModel?.firstName ?? "";
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Gap(30.h),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: Image.asset("assets/icon/back.png", width: 30.sp),
+                      ),
+                    ],
+                  ),
+                  Gap(60.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Update Profile",
+                        style: Theme.of(context).textTheme.displayMedium,
+                      ),
+                    ],
+                  ),
+                  Gap(20.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          showBottomSheet(
+                            context: context,
+                            builder: (context) => ImgBottomSheet(),
+                          );
+                        },
+                        child: Container(
+                          height: 80.h,
+                          width: 80.h,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              color: Color(0xff22bf73),
+                            ),
+                            borderRadius: BorderRadius.circular(100.w),
                           ),
-                          borderRadius: BorderRadius.circular(100.w),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.w),
-                          child: Image.network(
-                            state.imgUrl,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Center(
-                                  child: Icon(
-                                    Icons.broken_image_rounded,
-                                    size: 60.sp,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.w),
+                            child: state.profileImg != null
+                                ? Image.file(
+                                    state.profileImg!,
+                                    fit: BoxFit.cover,
+                                    width: double.maxFinite,
+                                  )
+                                : Center(
+                                    child: Icon(Icons.person, size: 40.sp),
                                   ),
-                                ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Gap(20.h),
-                TextFieldWidget(hintText: "Fast Name", controller: fastName),
-                Gap(20.h),
-                TextFieldWidget(hintText: "Last Name", controller: lastName),
-                Gap(50.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        context.pop(context);
-                      },
-                      child: Text("Back"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<ApiRequestBloc>().add(
-                          ProfileUpdateEvent(
-                            profileUpdate: UdateProfileModel(
-                              lastName: lastName.text,
-                              firstName: fastName.text,
-                              photo: state.imgUrl,
+                    ],
+                  ),
+                  Gap(20.h),
+                  TextFieldWidget(hintText: "Fast Name", controller: fastName),
+                  Gap(20.h),
+                  TextFieldWidget(hintText: "Last Name", controller: lastName),
+                  Gap(50.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          context.pop(context);
+                        },
+                        child: Text("Back"),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<ApiRequestBloc>().add(
+                            ProfileUpdateEvent(
+                              profileUpdate: UdateProfileModel(
+                                lastName: lastName.text,
+                                firstName: fastName.text,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Text("Update"),
-                    ),
-                  ],
-                ),
-              ],
+                          );
+                        },
+                        child: Text("Update"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             );
           },
         ),

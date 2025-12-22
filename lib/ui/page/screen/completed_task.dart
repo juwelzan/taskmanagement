@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_is_empty
+// ignore_for_file: prefer_is_empty, unnecessary_underscores
 
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +9,7 @@ import 'package:taskmanagement/controller/api_request_controller/bloc/api_reques
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
 import 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
 import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
+import 'package:taskmanagement/ui/custom/custom_about_dilog/custom_about_dilog.dart';
 import 'package:taskmanagement/ui/custom/task_view_container/task_view_container.dart';
 
 import '../../../core/path/path.dart';
@@ -21,7 +22,7 @@ class CompletedTask extends StatelessWidget {
     return Container(
       height: double.maxFinite,
       width: double.maxFinite,
-      decoration: BoxDecoration(color: Color(0xff22bf73).withOpacity(0.2)),
+      decoration: BoxDecoration(color: Color(0xff22bf73).withOpacity(0.4)),
       child: RefreshIndicator(
         onRefresh: () async {
           context.read<ApiRequestBloc>().add(GetTaskDataEvent());
@@ -29,8 +30,8 @@ class CompletedTask extends StatelessWidget {
         child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
           builder: (context, apiState) {
             if (!apiState.lodingSpin) {
-              if (apiState.canceletTaskData!.length == 0 ||
-                  apiState.canceletTaskData!.isEmpty) {
+              if (apiState.completedTaskData?.length == 0 ||
+                  apiState.completedTaskData!.isEmpty) {
                 return ListView(
                   children: [
                     SizedBox(
@@ -47,12 +48,14 @@ class CompletedTask extends StatelessWidget {
                     right: 10.w,
                     bottom: 150.h,
                   ),
-                  itemCount: apiState.canceletTaskData!.length,
+                  itemCount: apiState.completedTaskData!.length,
                   itemBuilder: (context, index) {
-                    final task = apiState.canceletTaskData?[index];
+                    final task = apiState.completedTaskData?[index];
+                    print(task?.createdDate);
                     return BlocBuilder<PageBloc, PageState>(
                       builder: (context, pageState) {
                         return TaskViewContainer(
+                          borderColor: "0xff22bf73",
                           date: task?.createdDate,
                           status: task?.status,
                           subTitel: task?.description,
@@ -60,6 +63,17 @@ class CompletedTask extends StatelessWidget {
                           isShow: index == pageState.dilogOpen,
                           onLongPress: () {
                             context.read<PageBloc>().add(Dilog(index: index));
+                          },
+                          edit: () {
+                            showGeneralDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              barrierLabel: "",
+                              barrierColor: Colors.transparent,
+                              pageBuilder: (_, __, ___) {
+                                return CustomAboutDilog(taskId: task!.id);
+                              },
+                            );
                           },
                           cancel: () {
                             context.read<PageBloc>().add(

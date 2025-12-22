@@ -35,21 +35,22 @@ class Drawerr extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(width: 2, color: Color(0xff22bf73)),
                       ),
-                      child: Image.network(
-                        state.userDataLocalModel!.photo.toString(),
-                        errorBuilder: (context, error, stackTrace) {
-                          return Center(child: Icon(Icons.error));
-                        },
-                      ),
+                      child: state.profileImg != null
+                          ? Image.file(
+                              state.profileImg!,
+                              fit: BoxFit.cover,
+                              width: double.maxFinite,
+                            )
+                          : Center(child: Icon(Icons.person, size: 40.sp)),
                     ),
                   ),
                 ),
                 Gap(10.h),
                 Text(
-                  "${state.userDataLocalModel?.firstName} ${state.userDataLocalModel?.lastName}",
+                  "${state.userProfileModel?.firstName} ${state.userProfileModel?.lastName}",
                 ),
                 Gap(1.h),
-                Text("${state.userDataLocalModel?.email} "),
+                Text("${state.userProfileModel?.email} "),
                 Gap(10.h),
                 Divider(),
                 Gap(10.h),

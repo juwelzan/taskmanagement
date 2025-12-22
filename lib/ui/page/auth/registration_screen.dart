@@ -6,7 +6,6 @@ import 'package:taskmanagement/controller/api_request_controller/bloc/api_reques
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
 import 'package:taskmanagement/core/models/registration_model/registration_model.dart';
-import 'package:taskmanagement/ui/custom/bottom_sheet/img_bottom_sheet.dart';
 
 import '../../../core/path/path.dart';
 
@@ -40,8 +39,9 @@ class RegistrationScreen extends StatelessWidget {
                 BlocBuilder<ApiRequestBloc, ApiRequestState>(
                   builder: (context, state) {
                     return TextFieldWidget(
-                      errorText: state.emailUseMessage != ""
-                          ? state.emailUseMessage
+                      textInputType: TextInputType.emailAddress,
+                      errorText: state.notFountModel?.useEmail != ""
+                          ? state.notFountModel?.useEmail
                           : null,
                       controller: _emailController,
                       hintText: "Email",
@@ -56,6 +56,7 @@ class RegistrationScreen extends StatelessWidget {
                 ),
                 Gap(10.h),
                 TextFieldWidget(
+                  textInputType: TextInputType.name,
                   controller: _fastNameController,
                   hintText: "Fast Name",
                   validator: (value) {
@@ -67,6 +68,7 @@ class RegistrationScreen extends StatelessWidget {
                 ),
                 Gap(10.h),
                 TextFieldWidget(
+                  textInputType: TextInputType.name,
                   controller: _lastNameController,
                   hintText: "Last Name",
                   validator: (value) {
@@ -78,6 +80,7 @@ class RegistrationScreen extends StatelessWidget {
                 ),
                 Gap(10.h),
                 TextFieldWidget(
+                  textInputType: TextInputType.number,
                   controller: _mobileController,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   hintText: "Mobile",
@@ -105,55 +108,55 @@ class RegistrationScreen extends StatelessWidget {
                   },
                 ),
                 Gap(10.h),
-                SizedBox(
-                  height: 47.h,
-                  width: double.maxFinite,
-                  child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
-                    builder: (context, state) {
-                      return Card(
-                        color: Color(0xffffffff),
-                        shadowColor: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                state.imgSelectM,
-                                style: Theme.of(context).textTheme.titleSmall
-                                    ?.copyWith(color: Colors.black45),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                    backgroundColor: Colors.transparent,
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (_) => Padding(
-                                      padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(
-                                          context,
-                                        ).viewInsets.bottom,
-                                      ),
-                                      child: ImgBottomSheet(),
-                                    ),
-                                  );
-                                  context.read<ApiRequestBloc>().add(
-                                    ImgLinkCheckEvent(imgUrlChe: false),
-                                  );
-                                  context.read<ApiRequestBloc>().add(
-                                    ImgUrlErrorM(imgUrlError: ""),
-                                  );
-                                },
-                                icon: Icon(Icons.image, size: 30.sp),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                // SizedBox(
+                //   height: 47.h,
+                //   width: double.maxFinite,
+                //   child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
+                //     builder: (context, state) {
+                //       return Card(
+                //         color: Color(0xffffffff),
+                //         shadowColor: Colors.transparent,
+                //         child: Padding(
+                //           padding: const EdgeInsets.only(left: 10, right: 5),
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //             children: [
+                //               Text(
+                //                 state.imgSelectM,
+                //                 style: Theme.of(context).textTheme.titleSmall
+                //                     ?.copyWith(color: Colors.black45),
+                //               ),
+                //               IconButton(
+                //                 onPressed: () {
+                //                   showModalBottomSheet(
+                //                     backgroundColor: Colors.transparent,
+                //                     context: context,
+                //                     isScrollControlled: true,
+                //                     builder: (_) => Padding(
+                //                       padding: EdgeInsets.only(
+                //                         bottom: MediaQuery.of(
+                //                           context,
+                //                         ).viewInsets.bottom,
+                //                       ),
+                //                       child: ImgBottomSheet(),
+                //                     ),
+                //                   );
+                //                   context.read<ApiRequestBloc>().add(
+                //                     ImgLinkCheckEvent(imgUrlChe: false),
+                //                   );
+                //                   context.read<ApiRequestBloc>().add(
+                //                     ImgUrlErrorM(imgUrlError: ""),
+                //                   );
+                //                 },
+                //                 icon: Icon(Icons.image, size: 30.sp),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       );
+                //     },
+                //   ),
+                // ),
                 Gap(20.h),
                 BlocBuilder<ApiRequestBloc, ApiRequestState>(
                   builder: (context, state) {
@@ -168,20 +171,17 @@ class RegistrationScreen extends StatelessWidget {
                               child: FilledButton(
                                 onPressed: () async {
                                   if (_formkey.currentState!.validate()) {
-                                    if (state.imgUrl != "") {
-                                      context.read<ApiRequestBloc>().add(
-                                        UserRegistrationEvent(
-                                          registrationModel: RegistrationModel(
-                                            email: _emailController.text,
-                                            firstName: _fastNameController.text,
-                                            lastName: _lastNameController.text,
-                                            mobile: _mobileController.text,
-                                            password: _passwController.text,
-                                            photo: state.imgUrl,
-                                          ),
+                                    context.read<ApiRequestBloc>().add(
+                                      UserRegistrationEvent(
+                                        registrationModel: RegistrationModel(
+                                          email: _emailController.text,
+                                          firstName: _fastNameController.text,
+                                          lastName: _lastNameController.text,
+                                          mobile: _mobileController.text,
+                                          password: _passwController.text,
                                         ),
-                                      );
-                                    }
+                                      ),
+                                    );
                                   }
                                 },
                                 child: Icon(Icons.arrow_circle_right_outlined),

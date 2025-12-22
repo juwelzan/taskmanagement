@@ -13,10 +13,22 @@ class ProfileScreen extends StatelessWidget {
         child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
           builder: (context, state) {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40.w),
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Column(
                 children: [
-                  Gap(40.h),
+                  Gap(30.h),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: Image.asset("assets/icon/back.png", width: 30.sp),
+                      ),
+                    ],
+                  ),
+                  Gap(30.h),
+
                   Text(
                     "Profile",
                     style: Theme.of(context).textTheme.displayMedium,
@@ -31,12 +43,13 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100.w),
-                      child: Image.network(
-                        "${state.userDataLocalModel?.photo}",
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Center(child: Icon(Icons.error)),
-                      ),
+                      child: state.profileImg != null
+                          ? Image.file(
+                              state.profileImg!,
+                              fit: BoxFit.cover,
+                              width: double.maxFinite,
+                            )
+                          : Center(child: Icon(Icons.person, size: 40.sp)),
                     ),
                   ),
                   Gap(10),
@@ -47,32 +60,35 @@ class ProfileScreen extends StatelessWidget {
                     child: Text("Edit"),
                   ),
                   Gap(10.h),
-                  SizedBox(
-                    width: double.maxFinite,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Name:",
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        Text(
-                          "${state.userDataLocalModel?.firstName} ${state.userDataLocalModel?.lastName}",
-                        ),
-                        Gap(10.h),
-                        Text(
-                          "Mobile:",
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        Text("${state.userDataLocalModel?.mobile}"),
-                        Gap(10.h),
-                        Text(
-                          "Email:",
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        Text("${state.userDataLocalModel?.email}"),
-                      ],
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 40.w),
+                    child: SizedBox(
+                      width: double.maxFinite,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Name:",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          Text(
+                            "${state.userProfileModel?.firstName} ${state.userProfileModel?.lastName}",
+                          ),
+                          Gap(10.h),
+                          Text(
+                            "Mobile:",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          Text("${state.userProfileModel?.mobile}"),
+                          Gap(10.h),
+                          Text(
+                            "Email:",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          Text("${state.userProfileModel?.email}"),
+                        ],
+                      ),
                     ),
                   ),
                 ],

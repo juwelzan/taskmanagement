@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_is_empty
+// ignore_for_file: prefer_is_empty, deprecated_member_use, unnecessary_underscores
 
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +8,7 @@ import 'package:taskmanagement/controller/api_request_controller/bloc/api_reques
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
 import 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
 import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
+import 'package:taskmanagement/ui/custom/custom_about_dilog/custom_about_dilog.dart';
 import 'package:taskmanagement/ui/custom/task_view_container/task_view_container.dart';
 
 import '../../../core/path/path.dart';
@@ -20,7 +21,7 @@ class CanceledTask extends StatelessWidget {
     return Container(
       height: double.maxFinite,
       width: double.maxFinite,
-      decoration: BoxDecoration(color: Color(0xff22bf73).withOpacity(0.2)),
+      decoration: BoxDecoration(color: Color(0xffDE1A58).withOpacity(0.4)),
       child: RefreshIndicator(
         onRefresh: () async {
           context.read<ApiRequestBloc>().add(GetTaskDataEvent());
@@ -52,22 +53,33 @@ class CanceledTask extends StatelessWidget {
                     return BlocBuilder<PageBloc, PageState>(
                       builder: (context, pageState) {
                         return TaskViewContainer(
+                          borderColor: "0xffDE1A58",
                           date: task?.createdDate,
                           status: task?.status,
                           subTitel: task?.description,
                           title: task?.title,
                           isShow: index == pageState.dilogOpen,
                           edit: () {
-                            // showAboutDialog(context: (context)=>)
+                            showGeneralDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              barrierLabel: "",
+                              barrierColor: Colors.transparent,
+                              pageBuilder: (_, __, ___) {
+                                return CustomAboutDilog(taskId: task!.id);
+                              },
+                            );
                           },
                           onLongPress: () {
                             context.read<PageBloc>().add(Dilog(index: index));
                           },
+
                           cancel: () {
                             context.read<PageBloc>().add(
                               Dilog(index: 349757239475),
                             );
                           },
+
                           delete: () {
                             showCupertinoModalPopup(
                               context: context,
