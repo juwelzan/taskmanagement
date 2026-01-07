@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
-import 'package:provider/provider.dart';
-import 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
 import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
 
 import '../../../core/path/path.dart';
@@ -12,7 +10,6 @@ class BottomNavebar extends StatelessWidget {
   final PageController _pageController = PageController();
   @override
   Widget build(BuildContext context) {
-    context.read<PageBloc>();
     return Stack(
       children: [
         Consumer<ScreenController>(

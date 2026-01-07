@@ -6,6 +6,7 @@ enum PageState { Dilog, Progress, Canceld, Completed, NewTasks }
 
 class ScreenController extends ChangeNotifier {
   PageState pageState = PageState.NewTasks;
+  int dilog = 1234982367455;
   int pageIndex = 0;
 
   void NewTask() {
@@ -34,6 +35,11 @@ class ScreenController extends ChangeNotifier {
 
   void AddNewTaskIndexUpdata() {
     pageIndex = 0;
+    notifyListeners();
+  }
+
+  void Dilog(int index) {
+    dilog = index;
     notifyListeners();
   }
 }

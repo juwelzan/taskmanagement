@@ -46,8 +46,6 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     on<StatusDropDownOpen>(_statusDropDownOpen);
     on<GetUseProfileData>(_getUseProfileData);
     on<StatusUpdataApiEvent>(_statusUpdataApiEvent);
-    on<ImagePikGallery>(_imagePikGallery);
-    on<ImagePikCamera>(_imagePikCamera);
     on<EmailOPTSendEvent>(_emailOPTSend);
     on<ResetPasswordEvent>(_resetPasswordEvent);
     on<OPTVerifyEvent>(_oPTVerifyEvent);
@@ -313,58 +311,6 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
 
     if (img != null && File(img).existsSync()) {
       emit(state.copyWith(profileImg: File(img)));
-    }
-  }
-
-  Future<void> _imagePikGallery(
-    ImagePikGallery event,
-    Emitter<ApiRequestState> emit,
-  ) async {
-    try {
-      final picker = ImagePicker();
-      final XFile? gallery = await picker.pickImage(
-        source: ImageSource.gallery,
-      );
-
-      if (gallery == null) return;
-
-      final directory = await getApplicationDocumentsDirectory();
-      final prefs = await SharedPreferences.getInstance();
-
-      final savedImage = File('${directory.path}/${gallery.name}');
-      await File(gallery.path).copy(savedImage.path);
-
-      await prefs.setString(ApiRequestState.imgKey, savedImage.path);
-
-      emit(state.copyWith(profileImg: savedImage));
-      router.pop();
-    } catch (e) {
-      debugPrint('Image pick error: $e');
-    }
-  }
-
-  Future<void> _imagePikCamera(
-    ImagePikCamera event,
-    Emitter<ApiRequestState> emit,
-  ) async {
-    try {
-      final picker = ImagePicker();
-      final XFile? gallery = await picker.pickImage(source: ImageSource.camera);
-
-      if (gallery == null) return;
-
-      final directory = await getApplicationDocumentsDirectory();
-      final prefs = await SharedPreferences.getInstance();
-
-      final savedImage = File('${directory.path}/${gallery.name}');
-      await File(gallery.path).copy(savedImage.path);
-
-      await prefs.setString(ApiRequestState.imgKey, savedImage.path);
-
-      emit(state.copyWith(profileImg: savedImage));
-      router.pop();
-    } catch (e) {
-      debugPrint('Image pick error: $e');
     }
   }
 

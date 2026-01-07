@@ -4,6 +4,7 @@ import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
+import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
 
 import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
 import 'package:taskmanagement/ui/custom/custom_about_dilog/custom_about_dilog.dart';
@@ -47,17 +48,17 @@ class NewTask extends StatelessWidget {
                   itemCount: state.newTaskAll.length,
                   itemBuilder: (context, index) {
                     final task = state.newTaskAll[index];
-                    return BlocBuilder<PageBloc, PageState>(
-                      builder: (context, pageState) {
+                    return Consumer<ScreenController>(
+                      builder: (context, state, _) {
                         return TaskViewContainer(
                           borderColor: "0xff05339C",
                           date: task.createdDate,
                           status: task.status,
                           subTitel: task.description,
                           title: task.title,
-                          isShow: index == pageState.dilogOpen,
+                          isShow: index == state.dilog,
                           onLongPress: () {
-                            context.read<PageBloc>().add(Dilog(index: index));
+                            context.read<ScreenController>().Dilog(index);
                             context.read<ApiRequestBloc>().add(
                               StatusSelectEvent(
                                 StstusName: "New",
@@ -71,8 +72,8 @@ class NewTask extends StatelessWidget {
                             );
                           },
                           cancel: () {
-                            context.read<PageBloc>().add(
-                              Dilog(index: 349757239475),
+                            context.read<ScreenController>().Dilog(
+                              349757239475,
                             );
                           },
                           edit: () {
@@ -97,8 +98,8 @@ class NewTask extends StatelessWidget {
                                     DeleteTaskEvent(id: task!.id),
                                   );
                                   Navigator.pop(context);
-                                  context.read<PageBloc>().add(
-                                    Dilog(index: 349757239475),
+                                  context.read<ScreenController>().Dilog(
+                                    349757239475,
                                   );
                                 },
                               ),

@@ -1,10 +1,9 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors_in_immutables
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
-import 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
+import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
+
 import 'package:taskmanagement/core/path/path.dart';
 
 class CustomAboutDilog extends StatelessWidget {
@@ -102,8 +101,8 @@ class CustomAboutDilog extends StatelessWidget {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  context.read<PageBloc>().add(
-                                    Dilog(index: 349757239475),
+                                  context.read<ScreenController>().Dilog(
+                                    349757239475,
                                   );
                                   Navigator.pop(context);
                                   context.read<ApiRequestBloc>().add(

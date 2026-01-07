@@ -36,9 +36,7 @@ export 'package:taskmanagement/ui/page/screen/completed_task.dart';
 export 'package:taskmanagement/ui/page/screen/new_task.dart';
 export 'package:taskmanagement/ui/page/screen/progress_task.dart';
 export 'package:bloc/bloc.dart';
-export 'package:taskmanagement/controller/page_view_controller/bloc/page_state.dart';
 
-export 'package:taskmanagement/controller/page_view_controller/bloc/page_event.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:taskmanagement/core/key/key.dart';
 
@@ -50,5 +48,5 @@ export 'package:taskmanagement/controller/api_request_controller/get_profile_dat
 export 'package:taskmanagement/controller/api_request_controller/internet_cheker.dart';
 export 'package:taskmanagement/controller/api_request_controller/logout_controller.dart';
 export 'package:taskmanagement/controller/api_request_controller/task_data_controller.dart';
-export 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
+
 export 'package:taskmanagement/controller/spash_controller/spash_provider.dart';

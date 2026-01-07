@@ -1,11 +1,8 @@
 // ignore_for_file: prefer_final_fields, must_be_immutable
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
-import 'package:taskmanagement/core/models/login_model/login_model.dart';
+import 'package:taskmanagement/controller/api_request_controller/user_login_controller.dart';
 
 import '../../../core/path/path.dart';
 
@@ -78,13 +75,9 @@ class LoginScreen extends StatelessWidget {
                       return FilledButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            context.read<ApiRequestBloc>().add(
-                              LoginEvent(
-                                loginDta: LoginModel(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                ),
-                              ),
+                            context.read<UserLoginController>().userlogin(
+                              _emailController.text,
+                              _passwordController.text,
                             );
                           }
                         },

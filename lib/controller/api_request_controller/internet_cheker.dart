@@ -3,8 +3,6 @@
 import 'dart:async';
 
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:provider/provider.dart';
-import 'package:taskmanagement/controller/spash_controller/spash_provider.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
 class InternetCheker extends ChangeNotifier {

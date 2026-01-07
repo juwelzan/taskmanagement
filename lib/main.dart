@@ -1,3 +1,5 @@
+import 'package:taskmanagement/controller/api_request_controller/camera_img_pik_controller.dart';
+import 'package:taskmanagement/controller/api_request_controller/img_pik_gallery.dart';
 import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
 
 import '../../../core/path/path.dart';
@@ -21,13 +23,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => ApiRequestBloc(router)),
-        BlocProvider(create: (context) => PageBloc()),
-      ],
+      providers: [BlocProvider(create: (context) => ApiRequestBloc(router))],
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => TaskDataController()),
+          ChangeNotifierProvider(create: (_) => ImgPikGallery()),
+          ChangeNotifierProvider(create: (_) => CameraImgPikController()),
           ChangeNotifierProvider(create: (_) => ScreenController()),
           ChangeNotifierProvider(create: (_) => AddTaskController()),
           ChangeNotifierProvider(create: (_) => LogoutController()),
