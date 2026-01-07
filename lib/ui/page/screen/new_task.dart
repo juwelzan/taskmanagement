@@ -83,7 +83,7 @@ class NewTask extends StatelessWidget {
                               barrierLabel: "",
                               barrierColor: Colors.transparent,
                               pageBuilder: (_, __, ___) {
-                                return CustomAboutDilog(taskId: task!.id);
+                                return CustomAboutDilog(taskId: task.id);
                               },
                             );
                           },
@@ -95,7 +95,7 @@ class NewTask extends StatelessWidget {
                                 onTapCancel: () => Navigator.pop(context),
                                 onTapYes: () {
                                   context.read<ApiRequestBloc>().add(
-                                    DeleteTaskEvent(id: task!.id),
+                                    DeleteTaskEvent(id: task.id),
                                   );
                                   Navigator.pop(context);
                                   context.read<ScreenController>().Dilog(
