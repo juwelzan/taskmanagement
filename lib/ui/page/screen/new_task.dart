@@ -1,12 +1,10 @@
-// ignore_for_file: prefer_is_empty, unnecessary_underscores
+// ignore_for_file: prefer_is_empty, unnecessary_underscores, unrelated_type_equality_checks
 
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
+
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
-import 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
+
 import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
 import 'package:taskmanagement/ui/custom/custom_about_dilog/custom_about_dilog.dart';
 import 'package:taskmanagement/ui/custom/task_view_container/task_view_container.dart';
@@ -26,11 +24,10 @@ class NewTask extends StatelessWidget {
         onRefresh: () async {
           context.read<ApiRequestBloc>().add(GetTaskDataEvent());
         },
-        child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
-          builder: (context, apiState) {
-            if (!apiState.lodingSpin) {
-              if (apiState.newTaskData!.length == 0 ||
-                  apiState.newTaskData!.isEmpty) {
+        child: Consumer<TaskDataController>(
+          builder: (context, state, child) {
+            if (true) {
+              if (state.newTaskAll == 0 || state.newTaskAll.isEmpty) {
                 return ListView(
                   children: [
                     SizedBox(
@@ -47,17 +44,17 @@ class NewTask extends StatelessWidget {
                     right: 10.w,
                     bottom: 150.h,
                   ),
-                  itemCount: apiState.newTaskData!.length,
+                  itemCount: state.newTaskAll.length,
                   itemBuilder: (context, index) {
-                    final task = apiState.newTaskData?[index];
+                    final task = state.newTaskAll[index];
                     return BlocBuilder<PageBloc, PageState>(
                       builder: (context, pageState) {
                         return TaskViewContainer(
                           borderColor: "0xff05339C",
-                          date: task?.createdDate,
-                          status: task?.status,
-                          subTitel: task?.description,
-                          title: task?.title,
+                          date: task.createdDate,
+                          status: task.status,
+                          subTitel: task.description,
+                          title: task.title,
                           isShow: index == pageState.dilogOpen,
                           onLongPress: () {
                             context.read<PageBloc>().add(Dilog(index: index));
@@ -116,7 +113,7 @@ class NewTask extends StatelessWidget {
                 );
               }
             }
-            if (apiState.lodingSpin) {
+            if (false) {
               return ListView.separated(
                 itemBuilder: (_, _) => Padding(
                   padding: EdgeInsets.symmetric(

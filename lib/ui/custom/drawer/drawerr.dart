@@ -1,8 +1,6 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
 import 'package:taskmanagement/core/path/path.dart';
 import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
 
@@ -18,8 +16,8 @@ class Drawerr extends StatelessWidget {
         width: double.maxFinite,
         decoration: BoxDecoration(color: Color(0xff22bf73).withOpacity(0.2)),
 
-        child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
-          builder: (context, state) {
+        child: Consumer<GetProfileData>(
+          builder: (context, state, _) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,9 +33,9 @@ class Drawerr extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(width: 2, color: Color(0xff22bf73)),
                       ),
-                      child: state.profileImg != null
+                      child: state.image != ""
                           ? Image.file(
-                              state.profileImg!,
+                              File(state.image),
                               fit: BoxFit.cover,
                               width: double.maxFinite,
                             )
@@ -47,10 +45,10 @@ class Drawerr extends StatelessWidget {
                 ),
                 Gap(10.h),
                 Text(
-                  "${state.userProfileModel?.firstName} ${state.userProfileModel?.lastName}",
+                  "${state.userProfileModel.firstName} ${state.userProfileModel.lastName}",
                 ),
                 Gap(1.h),
-                Text("${state.userProfileModel?.email} "),
+                Text("${state.userProfileModel.email} "),
                 Gap(10.h),
                 Divider(),
                 Gap(10.h),
@@ -110,9 +108,9 @@ class Drawerr extends StatelessWidget {
                                   },
                                   onTapYes: () {
                                     Navigator.pop(context);
-                                    context.read<ApiRequestBloc>().add(
-                                      LogoutUser(),
-                                    );
+                                    context
+                                        .read<LogoutController>()
+                                        .logoutUser();
                                   },
                                 );
                               },

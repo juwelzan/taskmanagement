@@ -1,9 +1,5 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, must_be_immutable
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-import 'package:taskmanagement/core/models/new_task_add_model/new_task_add_model.dart';
 import 'package:taskmanagement/core/path/path.dart';
 import 'package:taskmanagement/ui/custom/drawer/drawerr.dart';
 
@@ -87,13 +83,10 @@ class AddTaskScreen extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             if (_formState.currentState!.validate()) {
-                              context.read<ApiRequestBloc>().add(
-                                AddNewTaskEvent(
-                                  addNewTaskModel: AddNewTaskModel(
-                                    title: titleController.text,
-                                    description: titleController.text,
-                                  ),
-                                ),
+                              context.read<AddTaskController>().addNewTask(
+                                title: titleController.text,
+                                description: descriptionController.text,
+                                context: context,
                               );
                             }
                           },

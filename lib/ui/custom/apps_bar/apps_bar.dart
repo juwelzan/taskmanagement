@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
@@ -13,8 +15,8 @@ class AppsBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Color(0xff21bf73),
-      title: BlocBuilder<ApiRequestBloc, ApiRequestState>(
-        builder: (context, state) {
+      title: Consumer<GetProfileData>(
+        builder: (context, state, _) {
           return Row(
             children: [
               ClipRRect(
@@ -23,9 +25,9 @@ class AppsBar extends StatelessWidget implements PreferredSizeWidget {
                   radius: 25,
                   child: GestureDetector(
                     onTap: dowerOpen,
-                    child: state.profileImg != null
+                    child: state.image != ""
                         ? Image.file(
-                            state.profileImg!,
+                            File(state.image),
                             fit: BoxFit.cover,
                             width: double.maxFinite,
                           )
@@ -38,12 +40,12 @@ class AppsBar extends StatelessWidget implements PreferredSizeWidget {
                 textAlign: TextAlign.start,
                 text: TextSpan(
                   text:
-                      "${state.userProfileModel?.firstName} ${state.userProfileModel?.lastName}",
+                      "${state.userProfileModel.firstName} ${state.userProfileModel.lastName}",
                   style: Theme.of(context).textTheme.headlineSmall,
                   children: [
                     TextSpan(text: "\n"),
                     TextSpan(
-                      text: state.userProfileModel?.email,
+                      text: state.userProfileModel.email,
                       style: Theme.of(
                         context,
                       ).textTheme.headlineSmall?.copyWith(fontSize: 10.sp),

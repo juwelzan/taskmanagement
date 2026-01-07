@@ -1,6 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
+import 'dart:io';
 import 'package:taskmanagement/core/path/path.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -10,8 +8,8 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BackGroundWidget(
-        child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
-          builder: (context, state) {
+        child: Consumer<GetProfileData>(
+          builder: (context, state, _) {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Column(
@@ -43,9 +41,9 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100.w),
-                      child: state.profileImg != null
+                      child: state.image != ""
                           ? Image.file(
-                              state.profileImg!,
+                              File(state.image),
                               fit: BoxFit.cover,
                               width: double.maxFinite,
                             )
@@ -73,20 +71,20 @@ class ProfileScreen extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           Text(
-                            "${state.userProfileModel?.firstName} ${state.userProfileModel?.lastName}",
+                            "${state.userProfileModel.firstName} ${state.userProfileModel.lastName}",
                           ),
                           Gap(10.h),
                           Text(
                             "Mobile:",
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          Text("${state.userProfileModel?.mobile}"),
+                          Text("${state.userProfileModel.mobile}"),
                           Gap(10.h),
                           Text(
                             "Email:",
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          Text("${state.userProfileModel?.email}"),
+                          Text("${state.userProfileModel.email}"),
                         ],
                       ),
                     ),

@@ -12,6 +12,7 @@ import 'package:taskmanagement/apps/api/api_call/api_calls.dart';
 import 'package:taskmanagement/apps/api/url/urls.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
+import 'package:taskmanagement/core/key/key.dart';
 import 'package:taskmanagement/core/models/login_model/login_model.dart';
 import 'package:taskmanagement/core/models/new_task_add_model/new_task_add_model.dart';
 import 'package:taskmanagement/core/models/registration_model/registration_model.dart';
@@ -32,10 +33,10 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     on<UserRegistrationEvent>(_userRegistration);
 
     on<LodingSpin>(_lodingSpin);
-    on<UserLoginCheck>(_userLoginCheck);
+
     on<EmailUseMessage>(_emailUseMessage);
     on<LogoutUser>(_logoutUser);
-    on<GetTaskDataEvent>(_getTaskData);
+
     on<AddNewTaskEvent>(_addNewTask);
     on<DeleteTaskEvent>(_deleteTask);
     on<TaskStatusEvent>(_taskStatus);
@@ -77,9 +78,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
       print(user.createdDate);
       emit(state.copyWith(userProfileModel: user));
 
-      sharedpre.setString(ApiRequestState.userToken, token);
-      sharedpre.setString(ApiRequestState.userKey, jsonEncode(user.toJson()));
-      final da = sharedpre.getString(ApiRequestState.userKey);
+      sharedpre.setString(Keys.userToken, token);
       add(GetTaskDataEvent());
       router.go("/home");
 
@@ -159,85 +158,12 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     router.go("/login");
   }
 
-  Future<void> _userLoginCheck(
-    UserLoginCheck event,
-    Emitter<ApiRequestState> emit,
-  ) async {
-    SharedPreferences userData = await SharedPreferences.getInstance();
-    final data = userData.getString(ApiRequestState.userToken);
-    if (data != null) {
-      emit(state.copyWith());
-      add(GetTaskDataEvent());
-      router.go("/home");
-      add(GetUseProfileData());
-    }
-    if (data == null || data == "") {
-      router.go("/login");
-    }
-  }
-
-  Future<void> _getTaskData(
-    GetTaskDataEvent event,
-    Emitter<ApiRequestState> emit,
-  ) async {
-    SharedPreferences userData = await SharedPreferences.getInstance();
-    final token = userData.getString(ApiRequestState.userToken);
-    add(LodingSpin(lodingSpin: true));
-    try {
-      final newTask = await ApiCalls.RequestGet(
-        uri: Urls.NewTaskGetUrl(),
-        token: token,
-      );
-      final completedTask = await ApiCalls.RequestGet(
-        uri: Urls.CompletedTaskGetUrl(),
-        token: token,
-      );
-      final canceledTask = await ApiCalls.RequestGet(
-        uri: Urls.CanceledTaskGetUrl(),
-        token: token,
-      );
-      final progressTask = await ApiCalls.RequestGet(
-        uri: Urls.ProgressTaskGetUrl(),
-        token: token,
-      );
-
-      if (newTask.statusCode == 200 &&
-          completedTask.statusCode == 200 &&
-          canceledTask.statusCode == 200 &&
-          progressTask.statusCode == 200) {
-        add(GetUseProfileData());
-        TaskMode newTaskData = TaskMode.formJson(jsonDecode(newTask.body));
-        TaskMode completedTaskData = TaskMode.formJson(
-          jsonDecode(completedTask.body),
-        );
-        TaskMode canceledTaskData = TaskMode.formJson(
-          jsonDecode(canceledTask.body),
-        );
-        TaskMode progressTaskData = TaskMode.formJson(
-          jsonDecode(progressTask.body),
-        );
-        emit(
-          state.copyWith(
-            newTaskData: newTaskData.taskData,
-            completedTaskData: completedTaskData.taskData,
-            canceletTaskData: canceledTaskData.taskData,
-            progressTaskData: progressTaskData.taskData,
-          ),
-        );
-        add(LodingSpin(lodingSpin: false));
-      }
-    } catch (e) {
-      throw (e.toString());
-    }
-    add(LodingSpin(lodingSpin: false));
-  }
-
   Future<void> _addNewTask(
     AddNewTaskEvent event,
     Emitter<ApiRequestState> emit,
   ) async {
     SharedPreferences userData = await SharedPreferences.getInstance();
-    final token = userData.getString(ApiRequestState.userToken);
+    final token = userData.getString(Keys.userToken);
     AddNewTaskModel body = AddNewTaskModel(
       title: event.addNewTaskModel.title,
       description: event.addNewTaskModel.description,
@@ -262,7 +188,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
   ) async {
     print("delete");
     SharedPreferences userData = await SharedPreferences.getInstance();
-    final token = userData.getString(ApiRequestState.userToken);
+    final token = userData.getString(Keys.userToken);
     final response = await ApiCalls.RequestGet(
       uri: Urls.DeleteTaskUrl(event.id),
       token: token,
@@ -321,7 +247,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     Emitter<ApiRequestState> emit,
   ) async {
     SharedPreferences userData = await SharedPreferences.getInstance();
-    final token = userData.getString(ApiRequestState.userToken);
+    final token = userData.getString(Keys.userToken);
     UdateProfileModel data = UdateProfileModel(
       lastName: event.profileUpdate.lastName,
       firstName: event.profileUpdate.firstName,
@@ -344,7 +270,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     Emitter<ApiRequestState> emit,
   ) async {
     SharedPreferences sharedPre = await SharedPreferences.getInstance();
-    final token = sharedPre.getString(ApiRequestState.userToken);
+    final token = sharedPre.getString(Keys.userToken);
     final response = await ApiCalls.RequestGet(
       uri: Urls.UpdateTaskStatusUrl(
         taskID: event.taskId,
@@ -363,7 +289,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
     Emitter<ApiRequestState> emit,
   ) async {
     SharedPreferences sharedpre = await SharedPreferences.getInstance();
-    final token = sharedpre.getString(ApiRequestState.userToken);
+    final token = sharedpre.getString(Keys.userToken);
     print(token);
     if (token != null) {
       final response = await ApiCalls.RequestGet(
@@ -377,7 +303,7 @@ class ApiRequestBloc extends Bloc<ApiRequestEvent, ApiRequestState> {
         final data = deCodeData["data"][0];
 
         UserProfileModel user = UserProfileModel.fromJson(data);
-        sharedpre.setString(ApiRequestState.userKey, jsonEncode(user.toJson()));
+        sharedpre.setString(Keys.userToken, jsonEncode(user.toJson()));
 
         emit(state.copyWith(userProfileModel: user));
       }

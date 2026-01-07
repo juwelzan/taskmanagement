@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
+import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
 
 import '../../../core/path/path.dart';
 
@@ -14,44 +15,14 @@ class BottomNavebar extends StatelessWidget {
     context.read<PageBloc>();
     return Stack(
       children: [
-        BlocBuilder<PageBloc, PageState>(
-          builder: (context, state) {
-            if (state is NewTasks) {
-              _pageController.animateToPage(
-                0,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.elasticIn,
-              );
-            }
-            if (state is Completed) {
-              _pageController.animateToPage(
-                1,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.elasticIn,
-              );
-            }
-            if (state is Canceld) {
-              _pageController.animateToPage(
-                2,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.elasticIn,
-              );
-            }
-            if (state is Progress) {
-              _pageController.animateToPage(
-                3,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.elasticIn,
-              );
-            }
+        Consumer<ScreenController>(
+          builder: (context, state, child) {
             return PageView.builder(
               physics: NeverScrollableScrollPhysics(),
               controller: _pageController,
-              onPageChanged: (value) {
-                state.copyWith(page: value);
-              },
+
               itemBuilder: (context, index) {
-                return pages?[state.page];
+                return pages?[state.pageIndex];
               },
             );
           },
@@ -69,8 +40,8 @@ class BottomNavebar extends StatelessWidget {
               color: Color(0xffffffff),
               boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black38)],
             ),
-            child: BlocBuilder<PageBloc, PageState>(
-              builder: (context, state) {
+            child: Consumer<ScreenController>(
+              builder: (context, state, child) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,56 +51,56 @@ class BottomNavebar extends StatelessWidget {
                       img: "assets/icon/checklist.png",
                       leble: "New Task",
                       index: 2,
-                      btnColor: state.page == 0
+                      btnColor: state.pageIndex == 0
                           ? Color(0xff05339C)
                           : Colors.transparent,
-                      textColor: state.page == 0
+                      textColor: state.pageIndex == 0
                           ? Color(0xffffffff)
                           : Colors.black,
-                      shado: state.page == 0,
-                      onTap: () => context.read<PageBloc>().add(NewTasks()),
+                      shado: state.pageIndex == 0,
+                      onTap: () => context.read<ScreenController>().NewTask(),
                     ),
                     bottomButton(
                       context: context,
                       img: "assets/icon/check-mark.png",
                       leble: "Completed",
                       index: 2,
-                      btnColor: state.page == 1
+                      btnColor: state.pageIndex == 1
                           ? Color(0xff22bf73)
                           : Colors.transparent,
-                      textColor: state.page == 1
+                      textColor: state.pageIndex == 1
                           ? Color(0xffffffff)
                           : Colors.black,
-                      shado: state.page == 1,
-                      onTap: () => context.read<PageBloc>().add(Completed()),
+                      shado: state.pageIndex == 1,
+                      onTap: () => context.read<ScreenController>().Completed(),
                     ),
                     bottomButton(
                       context: context,
                       img: "assets/icon/cancel.png",
                       leble: "Canceled",
                       index: 1,
-                      btnColor: state.page == 2
+                      btnColor: state.pageIndex == 2
                           ? Color(0xffDE1A58)
                           : Colors.transparent,
-                      textColor: state.page == 2
+                      textColor: state.pageIndex == 2
                           ? Color(0xffffffff)
                           : Colors.black,
-                      shado: state.page == 2,
-                      onTap: () => context.read<PageBloc>().add(Canceld()),
+                      shado: state.pageIndex == 2,
+                      onTap: () => context.read<ScreenController>().Canceld(),
                     ),
                     bottomButton(
                       context: context,
                       img: "assets/icon/processing-time.png",
                       leble: "Progress",
                       index: 1,
-                      btnColor: state.page == 3
+                      btnColor: state.pageIndex == 3
                           ? Color(0xff350085)
                           : Colors.transparent,
-                      textColor: state.page == 3
+                      textColor: state.pageIndex == 3
                           ? Color(0xffffffff)
                           : Colors.black,
-                      shado: state.page == 3,
-                      onTap: () => context.read<PageBloc>().add(Progress()),
+                      shado: state.pageIndex == 3,
+                      onTap: () => context.read<ScreenController>().Progress(),
                     ),
                   ],
                 );

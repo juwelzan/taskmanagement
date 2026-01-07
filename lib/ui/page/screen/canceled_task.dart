@@ -2,11 +2,9 @@
 
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
+
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
-import 'package:taskmanagement/controller/page_view_controller/bloc/page_bloc.dart';
+
 import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
 import 'package:taskmanagement/ui/custom/custom_about_dilog/custom_about_dilog.dart';
 import 'package:taskmanagement/ui/custom/task_view_container/task_view_container.dart';
@@ -26,11 +24,11 @@ class CanceledTask extends StatelessWidget {
         onRefresh: () async {
           context.read<ApiRequestBloc>().add(GetTaskDataEvent());
         },
-        child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
-          builder: (context, apiState) {
-            if (!apiState.lodingSpin) {
-              if (apiState.canceletTaskData!.length == 0 ||
-                  apiState.canceletTaskData!.isEmpty) {
+        child: Consumer<TaskDataController>(
+          builder: (context, apiState, child) {
+            if (true) {
+              if (apiState.canceledTaskAll.length == 0 ||
+                  apiState.canceledTaskAll.isEmpty) {
                 return ListView(
                   children: [
                     SizedBox(
@@ -47,17 +45,17 @@ class CanceledTask extends StatelessWidget {
                     right: 10.w,
                     bottom: 150.h,
                   ),
-                  itemCount: apiState.canceletTaskData!.length,
+                  itemCount: apiState.canceledTaskAll.length,
                   itemBuilder: (context, index) {
-                    final task = apiState.canceletTaskData?[index];
+                    final task = apiState.canceledTaskAll[index];
                     return BlocBuilder<PageBloc, PageState>(
                       builder: (context, pageState) {
                         return TaskViewContainer(
                           borderColor: "0xffDE1A58",
-                          date: task?.createdDate,
-                          status: task?.status,
-                          subTitel: task?.description,
-                          title: task?.title,
+                          date: task.createdDate,
+                          status: task.status,
+                          subTitel: task.description,
+                          title: task.title,
                           isShow: index == pageState.dilogOpen,
                           edit: () {
                             showGeneralDialog(
@@ -66,7 +64,7 @@ class CanceledTask extends StatelessWidget {
                               barrierLabel: "",
                               barrierColor: Colors.transparent,
                               pageBuilder: (_, __, ___) {
-                                return CustomAboutDilog(taskId: task!.id);
+                                return CustomAboutDilog(taskId: task.id);
                               },
                             );
                           },
@@ -88,7 +86,7 @@ class CanceledTask extends StatelessWidget {
                                 onTapCancel: () => Navigator.pop(context),
                                 onTapYes: () {
                                   context.read<ApiRequestBloc>().add(
-                                    DeleteTaskEvent(id: task!.id),
+                                    DeleteTaskEvent(id: task.id),
                                   );
                                   Navigator.pop(context);
                                   context.read<PageBloc>().add(
@@ -107,7 +105,7 @@ class CanceledTask extends StatelessWidget {
                 );
               }
             }
-            if (apiState.lodingSpin) {
+            if (false) {
               return ListView.separated(
                 itemBuilder: (_, _) => Padding(
                   padding: EdgeInsets.symmetric(

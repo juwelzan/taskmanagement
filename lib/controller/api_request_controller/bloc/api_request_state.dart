@@ -14,8 +14,6 @@ class ApiRequestState {
 
   final bool lodingSpin;
 
-  static const String userToken = "token";
-  static const String userKey = "user";
   static const String imgKey = "img";
   final List<TaskDataModel>? newTaskData;
   final List<TaskDataModel>? progressTaskData;
