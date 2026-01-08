@@ -41,9 +41,9 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100.w),
-                      child: state.image != ""
+                      child: state.image != null
                           ? Image.file(
-                              File(state.image),
+                              state.image!,
                               fit: BoxFit.cover,
                               width: double.maxFinite,
                             )

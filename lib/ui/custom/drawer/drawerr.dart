@@ -33,9 +33,9 @@ class Drawerr extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(width: 2, color: Color(0xff22bf73)),
                       ),
-                      child: state.image != ""
+                      child: state.image != null
                           ? Image.file(
-                              File(state.image),
+                              state.image!,
                               fit: BoxFit.cover,
                               width: double.maxFinite,
                             )

@@ -70,10 +70,10 @@ class DeleteTaskEvent extends ApiRequestEvent {
   DeleteTaskEvent({required this.id});
 }
 
-class TaskStatusEvent extends ApiRequestEvent {
-  final String status;
-  TaskStatusEvent({required this.status});
-}
+// class TaskStatusEvent extends ApiRequestEvent {
+//   final String status;
+//   TaskStatusEvent({required this.status});
+// }
 
 class ProfileUpdateEvent extends ApiRequestEvent {
   final UdateProfileModel profileUpdate;

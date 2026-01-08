@@ -4,6 +4,7 @@ import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
+import 'package:taskmanagement/controller/api_request_controller/delete_task_controller.dart';
 import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
 
 import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
@@ -23,11 +24,11 @@ class NewTask extends StatelessWidget {
       decoration: BoxDecoration(color: Color(0xff05339C).withOpacity(0.4)),
       child: RefreshIndicator(
         onRefresh: () async {
-          context.read<ApiRequestBloc>().add(GetTaskDataEvent());
+          context.read<TaskDataController>().getTaskData();
         },
         child: Consumer<TaskDataController>(
           builder: (context, state, child) {
-            if (true) {
+            if (!state.lodigSpin) {
               if (state.newTaskAll == 0 || state.newTaskAll.isEmpty) {
                 return ListView(
                   children: [
@@ -67,9 +68,9 @@ class NewTask extends StatelessWidget {
                               ),
                             );
 
-                            context.read<ApiRequestBloc>().add(
-                              TaskStatusEvent(status: "New"),
-                            );
+                            // context.read<ApiRequestBloc>().add(
+                            //   // TaskStatusEvent(status: "New"),
+                            // );
                           },
                           cancel: () {
                             context.read<ScreenController>().Dilog(
@@ -83,7 +84,7 @@ class NewTask extends StatelessWidget {
                               barrierLabel: "",
                               barrierColor: Colors.transparent,
                               pageBuilder: (_, __, ___) {
-                                return CustomAboutDilog(taskId: task!.id);
+                                return CustomAboutDilog(taskId: task.id);
                               },
                             );
                           },
@@ -94,9 +95,9 @@ class NewTask extends StatelessWidget {
                                 titel: "Delete the task?",
                                 onTapCancel: () => Navigator.pop(context),
                                 onTapYes: () {
-                                  context.read<ApiRequestBloc>().add(
-                                    DeleteTaskEvent(id: task!.id),
-                                  );
+                                  context
+                                      .read<DeleteTaskController>()
+                                      .deleteTask(task.id);
                                   Navigator.pop(context);
                                   context.read<ScreenController>().Dilog(
                                     349757239475,
@@ -114,7 +115,7 @@ class NewTask extends StatelessWidget {
                 );
               }
             }
-            if (false) {
+            if (state.lodigSpin) {
               return ListView.separated(
                 itemBuilder: (_, _) => Padding(
                   padding: EdgeInsets.symmetric(

@@ -1,9 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
-
 import '../../../core/path/path.dart';
 
 class AppsBar extends StatelessWidget implements PreferredSizeWidget {
@@ -25,9 +21,9 @@ class AppsBar extends StatelessWidget implements PreferredSizeWidget {
                   radius: 25,
                   child: GestureDetector(
                     onTap: dowerOpen,
-                    child: state.image != ""
+                    child: state.image != null
                         ? Image.file(
-                            File(state.image),
+                            state.image!,
                             fit: BoxFit.cover,
                             width: double.maxFinite,
                           )

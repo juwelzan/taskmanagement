@@ -21,9 +21,18 @@ class ImgPikGallery extends ChangeNotifier {
       await File(gallery.path).copy(savedImage.path);
 
       await prefs.setString(Keys.imgKey, savedImage.path);
+
       router.pop();
     } catch (e) {
       debugPrint('Image pick error: $e');
     }
   }
+
+  // Future<void> _saveImgDb(File image) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   Uint8List imgData = await image.readAsBytes();
+  //   String imgString = base64Encode(imgData);
+  //   print(imgString);
+  //   prefs.setString(Keys.imgKey, imgString);
+  // }
 }

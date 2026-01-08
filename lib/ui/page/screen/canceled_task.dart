@@ -4,6 +4,7 @@ import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
+import 'package:taskmanagement/controller/api_request_controller/delete_task_controller.dart';
 import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
 
 import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
@@ -23,11 +24,11 @@ class CanceledTask extends StatelessWidget {
       decoration: BoxDecoration(color: Color(0xffDE1A58).withOpacity(0.4)),
       child: RefreshIndicator(
         onRefresh: () async {
-          context.read<ApiRequestBloc>().add(GetTaskDataEvent());
+          context.read<TaskDataController>().getTaskData();
         },
         child: Consumer<TaskDataController>(
           builder: (context, apiState, child) {
-            if (true) {
+            if (!apiState.lodigSpin) {
               if (apiState.canceledTaskAll.length == 0 ||
                   apiState.canceledTaskAll.isEmpty) {
                 return ListView(
@@ -86,9 +87,9 @@ class CanceledTask extends StatelessWidget {
                                 titel: "Delete the task?",
                                 onTapCancel: () => Navigator.pop(context),
                                 onTapYes: () {
-                                  context.read<ApiRequestBloc>().add(
-                                    DeleteTaskEvent(id: task.id),
-                                  );
+                                  context
+                                      .read<DeleteTaskController>()
+                                      .deleteTask(task.id);
                                   Navigator.pop(context);
                                   context.read<ScreenController>().Dilog(
                                     349757239475,
@@ -106,7 +107,7 @@ class CanceledTask extends StatelessWidget {
                 );
               }
             }
-            if (false) {
+            if (apiState.lodigSpin) {
               return ListView.separated(
                 itemBuilder: (_, _) => Padding(
                   padding: EdgeInsets.symmetric(

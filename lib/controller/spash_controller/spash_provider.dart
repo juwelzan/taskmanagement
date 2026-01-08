@@ -18,7 +18,6 @@ class SpashProvider extends ChangeNotifier {
       router.go("/home");
     } else {
       router.go("/login");
-      notifyListeners();
     }
   }
 }

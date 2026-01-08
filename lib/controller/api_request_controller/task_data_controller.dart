@@ -1,22 +1,18 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:convert';
-
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taskmanagement/apps/api/api_call/api_calls.dart';
-import 'package:taskmanagement/apps/api/url/urls.dart';
-import 'package:taskmanagement/core/key/key.dart';
 import 'package:taskmanagement/core/models/task_data_model/task_data_model.dart';
 import 'package:taskmanagement/core/models/task_model/task_mode.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
 class TaskDataController extends ChangeNotifier {
+  bool lodigSpin = false;
   List<TaskDataModel> newTaskAll = <TaskDataModel>[];
   List<TaskDataModel> completedTaskAll = <TaskDataModel>[];
   List<TaskDataModel> canceledTaskAll = <TaskDataModel>[];
   List<TaskDataModel> progressTaskAll = <TaskDataModel>[];
 
   Future<void> getTaskData() async {
+    lodig(true);
     SharedPreferences userData = await SharedPreferences.getInstance();
     final token = userData.getString(Keys.userToken);
 
@@ -56,12 +52,16 @@ class TaskDataController extends ChangeNotifier {
         completedTaskAll = completedTaskData.taskData;
         canceledTaskAll = canceledTaskData.taskData;
         progressTaskAll = progressTaskData.taskData;
-
-        print(completedTaskAll.length);
+        lodig(false);
         notifyListeners();
       }
     } catch (e) {
-      throw (e.toString());
+      print(e.toString());
     }
+  }
+
+  void lodig(bool value) {
+    lodigSpin = value;
+    notifyListeners();
   }
 }

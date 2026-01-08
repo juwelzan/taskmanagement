@@ -55,12 +55,12 @@ class LoginScreen extends StatelessWidget {
                   },
                 ),
                 Gap(10.h),
-                BlocBuilder<ApiRequestBloc, ApiRequestState>(
-                  builder: (context, state) {
+                Consumer<UserLoginController>(
+                  builder: (context, state, _) {
                     return Visibility(
-                      visible: state.notFountModel?.useEmail != null,
+                      visible: state.notFountModel.useEmail != "",
                       child: Text(
-                        state.notFountModel?.useEmail ?? "",
+                        state.notFountModel.useEmail,
                         style: Theme.of(
                           context,
                         ).textTheme.bodySmall?.copyWith(color: Colors.red),
@@ -69,8 +69,8 @@ class LoginScreen extends StatelessWidget {
                   },
                 ),
                 Gap(20.h),
-                BlocBuilder<ApiRequestBloc, ApiRequestState>(
-                  builder: (context, state) {
+                Consumer<UserLoginController>(
+                  builder: (context, state, _) {
                     if (!state.lodingSpin) {
                       return FilledButton(
                         onPressed: () {

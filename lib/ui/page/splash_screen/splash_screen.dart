@@ -12,11 +12,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    context.read<InternetCheker>().internetStatusCheck();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   context.read<InternetCheker>().startListening();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

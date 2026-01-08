@@ -1,12 +1,13 @@
+import 'dart:io';
+
 import 'package:taskmanagement/core/path/path.dart';
 
 class GetProfileData extends ChangeNotifier {
   UserProfileModel userProfileModel = UserProfileModel();
-  String image = "";
+  File? image;
   Future<void> getUseProfileData() async {
     SharedPreferences sharedpre = await SharedPreferences.getInstance();
     final token = sharedpre.getString(Keys.userToken);
-    print(token);
     if (token != null) {
       final response = await ApiCalls.RequestGet(
         uri: Urls.ProfileDetailsUrl(),
@@ -18,10 +19,20 @@ class GetProfileData extends ChangeNotifier {
         final data = deCodeData["data"][0];
 
         userProfileModel = UserProfileModel.fromJson(data);
-
-        print(userProfileModel.email);
+        getImgDB();
         notifyListeners();
       }
+    }
+  }
+
+  void getImgDB() async {
+    SharedPreferences sharedpre = await SharedPreferences.getInstance();
+
+    final img = sharedpre.getString(Keys.imgKey);
+
+    if (img != null && File(img).existsSync()) {
+      image = File(img);
+      notifyListeners();
     }
   }
 }

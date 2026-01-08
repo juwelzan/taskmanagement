@@ -19,7 +19,7 @@ class ApiRequestState {
   final List<TaskDataModel>? progressTaskData;
   final List<TaskDataModel>? canceletTaskData;
   final List<TaskDataModel>? completedTaskData;
-  final String? taskStatus, otpSendEmai, notUserFount, invalidOTP, otp;
+  final String? otpSendEmai, notUserFount, invalidOTP, otp;
   final StatusSelectModel? statusSelectModel;
   final bool isStatusDropDownOpen;
 
@@ -32,7 +32,7 @@ class ApiRequestState {
     this.progressTaskData,
     this.canceletTaskData,
     this.completedTaskData,
-    this.taskStatus = "",
+
     this.statusSelectModel,
     this.isStatusDropDownOpen = false,
     this.userProfileModel,
@@ -54,7 +54,7 @@ class ApiRequestState {
     List<TaskDataModel>? newTaskData,
     List<TaskDataModel>? progressTaskData,
     List<TaskDataModel>? canceletTaskData,
-    String? taskStatus,
+
     otpSendEmai,
     notUserFount,
     invalidOTP,
@@ -71,7 +71,7 @@ class ApiRequestState {
       canceletTaskData: canceletTaskData ?? this.canceletTaskData,
       newTaskData: newTaskData ?? this.newTaskData,
       progressTaskData: progressTaskData ?? this.progressTaskData,
-      taskStatus: taskStatus ?? this.taskStatus,
+
       statusSelectModel: statusSelectModel ?? this.statusSelectModel,
       isStatusDropDownOpen: isStatusDropDownOpen ?? this.isStatusDropDownOpen,
       userProfileModel: userProfileModel ?? this.userProfileModel,

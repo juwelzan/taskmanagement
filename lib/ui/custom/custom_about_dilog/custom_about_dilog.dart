@@ -1,8 +1,9 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors_in_immutables
 
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
+import 'package:taskmanagement/controller/api_request_controller/task_stusus_update.dart';
 import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
+import 'package:taskmanagement/core/models/status_select_model/status_select_model.dart';
 
 import 'package:taskmanagement/core/path/path.dart';
 
@@ -19,8 +20,8 @@ class CustomAboutDilog extends StatelessWidget {
           StatusDropDownOpen(isStatusDropDownOpen: false),
         );
       },
-      child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
-        builder: (context, state) {
+      child: Consumer<TaskStususUpdate>(
+        builder: (context, state, _) {
           return Stack(
             children: [
               Container(
@@ -48,12 +49,9 @@ class CustomAboutDilog extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              context.read<ApiRequestBloc>().add(
-                                StatusDropDownOpen(
-                                  isStatusDropDownOpen:
-                                      !state.isStatusDropDownOpen,
-                                ),
-                              );
+                              context
+                                  .read<TaskStususUpdate>()
+                                  .statusDropDownOpen(!state.isDropDownOpen);
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -62,20 +60,20 @@ class CustomAboutDilog extends StatelessWidget {
                               width: double.maxFinite,
                               decoration: BoxDecoration(
                                 color: Color(
-                                  int.parse(state.statusSelectModel!.color),
+                                  int.parse(state.statusSelectModel.color),
                                 ),
                                 borderRadius: BorderRadius.circular(8.sp),
                               ),
                               child: Row(
                                 children: [
                                   Image.asset(
-                                    state.statusSelectModel!.icon,
+                                    state.statusSelectModel.icon,
                                     width: 35.sp,
                                     color: Color(0xffffffff),
                                   ),
                                   Gap(10.w),
                                   Text(
-                                    state.statusSelectModel!.StstusName,
+                                    state.statusSelectModel.StstusName,
                                     style: Theme.of(context)
                                         .textTheme
                                         .displayMedium
@@ -105,13 +103,13 @@ class CustomAboutDilog extends StatelessWidget {
                                     349757239475,
                                   );
                                   Navigator.pop(context);
-                                  context.read<ApiRequestBloc>().add(
-                                    StatusUpdataApiEvent(
-                                      StstusName:
-                                          state.statusSelectModel!.StstusName,
-                                      taskId: taskId,
-                                    ),
-                                  );
+
+                                  context
+                                      .read<TaskStususUpdate>()
+                                      .taskstatusUpdata(
+                                        taskId,
+                                        state.statusSelectModel.StstusName,
+                                      );
                                 },
                                 child: Text("Update"),
                               ),
@@ -123,7 +121,7 @@ class CustomAboutDilog extends StatelessWidget {
                   ),
                 ),
               ),
-              if (state.isStatusDropDownOpen)
+              if (state.isDropDownOpen)
                 Positioned(
                   top: 362.h,
                   left: 63.w,
@@ -136,14 +134,14 @@ class CustomAboutDilog extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              context.read<ApiRequestBloc>().add(
-                                StatusDropDownOpen(isStatusDropDownOpen: false),
-                              );
-                              context.read<ApiRequestBloc>().add(
-                                StatusSelectEvent(
-                                  StstusName: "New",
-                                  color: "0xff05339C",
-                                  icon: "assets/icon/checklist.png",
+                              context
+                                  .read<TaskStususUpdate>()
+                                  .statusDropDownOpen(!state.isDropDownOpen);
+                              context.read<TaskStususUpdate>().statusSelection(
+                                StatusSelectModel(
+                                  color: '0xff05339C',
+                                  StstusName: 'New',
+                                  icon: 'assets/icon/checklist.png',
                                 ),
                               );
                             },
@@ -181,14 +179,14 @@ class CustomAboutDilog extends StatelessWidget {
                           Gap(10.h),
                           GestureDetector(
                             onTap: () {
-                              context.read<ApiRequestBloc>().add(
-                                StatusDropDownOpen(isStatusDropDownOpen: false),
-                              );
-                              context.read<ApiRequestBloc>().add(
-                                StatusSelectEvent(
-                                  StstusName: "Completed",
-                                  color: "0xff22bf73",
-                                  icon: "assets/icon/check-mark.png",
+                              context
+                                  .read<TaskStususUpdate>()
+                                  .statusDropDownOpen(!state.isDropDownOpen);
+                              context.read<TaskStususUpdate>().statusSelection(
+                                StatusSelectModel(
+                                  color: '0xff22bf73',
+                                  StstusName: 'Completed',
+                                  icon: 'assets/icon/check-mark.png',
                                 ),
                               );
                             },
@@ -226,14 +224,14 @@ class CustomAboutDilog extends StatelessWidget {
                           Gap(10.h),
                           GestureDetector(
                             onTap: () {
-                              context.read<ApiRequestBloc>().add(
-                                StatusDropDownOpen(isStatusDropDownOpen: false),
-                              );
-                              context.read<ApiRequestBloc>().add(
-                                StatusSelectEvent(
-                                  StstusName: "Canceled",
-                                  color: "0xffDE1A58",
-                                  icon: "assets/icon/cancel.png",
+                              context
+                                  .read<TaskStususUpdate>()
+                                  .statusDropDownOpen(!state.isDropDownOpen);
+                              context.read<TaskStususUpdate>().statusSelection(
+                                StatusSelectModel(
+                                  color: '0xffDE1A58',
+                                  StstusName: 'Canceled',
+                                  icon: 'assets/icon/cancel.png',
                                 ),
                               );
                             },
@@ -271,8 +269,15 @@ class CustomAboutDilog extends StatelessWidget {
                           Gap(10.h),
                           GestureDetector(
                             onTap: () {
-                              context.read<ApiRequestBloc>().add(
-                                StatusDropDownOpen(isStatusDropDownOpen: false),
+                              context
+                                  .read<TaskStususUpdate>()
+                                  .statusDropDownOpen(!state.isDropDownOpen);
+                              context.read<TaskStususUpdate>().statusSelection(
+                                StatusSelectModel(
+                                  color: '0xff360185',
+                                  StstusName: 'Progress',
+                                  icon: 'assets/icon/processing-time.png',
+                                ),
                               );
                               context.read<ApiRequestBloc>().add(
                                 StatusSelectEvent(

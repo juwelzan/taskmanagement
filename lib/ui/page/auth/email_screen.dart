@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_final_fields
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
+import 'package:taskmanagement/controller/api_request_controller/otp_send_email.dart';
 
 import '../../../core/path/path.dart';
 
@@ -48,11 +47,11 @@ class EmailScreen extends StatelessWidget {
               ),
             ),
             Gap(20.h),
-            BlocBuilder<ApiRequestBloc, ApiRequestState>(
-              builder: (context, state) {
-                if (state.notUserFount != null || state.notUserFount != "") {
+            Consumer<OtpSendEmail>(
+              builder: (context, state, _) {
+                if (state.emailError != "") {
                   return Text(
-                    state.notUserFount ?? "",
+                    state.emailError,
                     style: TextStyle(color: Colors.red),
                   );
                 }
@@ -60,21 +59,21 @@ class EmailScreen extends StatelessWidget {
               },
             ),
             Gap(20.h),
-            BlocBuilder<ApiRequestBloc, ApiRequestState>(
-              builder: (context, state) {
-                if (!state.lodingSpin) {
+            Consumer<OtpSendEmail>(
+              builder: (context, state, _) {
+                if (!state.isLoding) {
                   return FilledButton(
                     onPressed: () {
                       if (_formkey.currentState!.validate()) {
-                        context.read<ApiRequestBloc>().add(
-                          EmailOPTSendEvent(email: controller.text),
+                        context.read<OtpSendEmail>().emailOPTSend(
+                          controller.text.trim(),
                         );
                       }
                     },
                     child: Icon(Icons.arrow_circle_right_outlined, size: 25.sp),
                   );
                 }
-                if (state.lodingSpin) {
+                if (state.isLoding) {
                   return Center(
                     child: Lottie.asset("assets/loding.json", width: 40.w),
                   );

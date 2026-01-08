@@ -19,7 +19,7 @@ class CameraImgPikController extends ChangeNotifier {
       final savedImage = File('${directory.path}/${gallery.name}');
       await File(gallery.path).copy(savedImage.path);
 
-      await prefs.setString(ApiRequestState.imgKey, savedImage.path);
+      await prefs.setString(Keys.imgKey, savedImage.path);
       router.pop();
     } catch (e) {
       debugPrint('Image pick error: $e');

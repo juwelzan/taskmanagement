@@ -1,28 +1,33 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:async';
-
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
 class InternetCheker extends ChangeNotifier {
   final SpashProvider spashProvider;
   StreamSubscription<InternetStatus>? _subscription;
-  InternetCheker(this.spashProvider);
-  Future<void> internetStatusCheck() async {
-    _subscription = InternetConnection().onStatusChange.listen((onData) {
-      if (onData == InternetStatus.connected) {
+
+  InternetCheker(this.spashProvider) {
+    startListening();
+  }
+
+  void startListening() {
+    _subscription?.cancel();
+
+    _subscription = InternetConnection().onStatusChange.listen((status) {
+      if (status == InternetStatus.connected) {
         spashProvider.SplashEnd();
-        print("object");
       } else {
         router.go("/oninternet");
       }
+
+      notifyListeners();
     });
   }
 
   @override
   void dispose() {
     _subscription?.cancel();
+
     super.dispose();
   }
 }

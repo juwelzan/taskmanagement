@@ -2,6 +2,7 @@
 
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
 import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
+import 'package:taskmanagement/controller/api_request_controller/profile_update_controller.dart';
 import 'package:taskmanagement/core/models/udate_profile_model/udate_profile_model.dart';
 import 'package:taskmanagement/core/path/path.dart';
 import 'package:taskmanagement/ui/custom/bottom_sheet/img_bottom_sheet.dart';
@@ -15,10 +16,10 @@ class ProfileUpdateScreen extends StatelessWidget {
     return BackGroundWidget(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: BlocBuilder<ApiRequestBloc, ApiRequestState>(
-          builder: (context, state) {
-            lastName.text = state.userProfileModel?.lastName ?? "";
-            fastName.text = state.userProfileModel?.firstName ?? "";
+        child: Consumer2<ProfileUpdateController, GetProfileData>(
+          builder: (context, profileupdate, profiledata, _) {
+            lastName.text = profiledata.userProfileModel.lastName ?? "";
+            fastName.text = profiledata.userProfileModel.firstName ?? "";
             return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -68,9 +69,9 @@ class ProfileUpdateScreen extends StatelessWidget {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100.w),
-                            child: state.profileImg != null
+                            child: profiledata.image != null
                                 ? Image.file(
-                                    state.profileImg!,
+                                    profiledata.image!,
                                     fit: BoxFit.cover,
                                     width: double.maxFinite,
                                   )
@@ -98,13 +99,9 @@ class ProfileUpdateScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          context.read<ApiRequestBloc>().add(
-                            ProfileUpdateEvent(
-                              profileUpdate: UdateProfileModel(
-                                lastName: lastName.text,
-                                firstName: fastName.text,
-                              ),
-                            ),
+                          context.read<ProfileUpdateController>().profileUpdate(
+                            fastName.text,
+                            lastName.text,
                           );
                         },
                         child: Text("Update"),
