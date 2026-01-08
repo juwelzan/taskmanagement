@@ -95,9 +95,9 @@ class NewTask extends StatelessWidget {
                                 titel: "Delete the task?",
                                 onTapCancel: () => Navigator.pop(context),
                                 onTapYes: () {
-                                  context
-                                      .read<DeleteTaskController>()
-                                      .deleteTask(task.id);
+                                  context.read<ApiRequestBloc>().add(
+                                    DeleteTaskEvent(id: task!.id),
+                                  );
                                   Navigator.pop(context);
                                   context.read<ScreenController>().Dilog(
                                     349757239475,

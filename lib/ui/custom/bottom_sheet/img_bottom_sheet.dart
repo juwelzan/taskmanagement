@@ -1,8 +1,5 @@
 // ignore_for_file: must_be_immutable, prefer_final_fields, prefer_const_constructors_in_immutables
 
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
 import 'package:taskmanagement/controller/api_request_controller/camera_img_pik_controller.dart';
 import 'package:taskmanagement/controller/api_request_controller/img_pik_gallery.dart';
 import 'package:taskmanagement/core/path/path.dart';
