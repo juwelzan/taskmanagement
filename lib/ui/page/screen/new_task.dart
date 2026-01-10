@@ -1,15 +1,6 @@
 // ignore_for_file: prefer_is_empty, unnecessary_underscores, unrelated_type_equality_checks
 
-import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-import 'package:taskmanagement/controller/api_request_controller/delete_task_controller.dart';
-import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
-
-import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
-import 'package:taskmanagement/ui/custom/custom_about_dilog/custom_about_dilog.dart';
-import 'package:taskmanagement/ui/custom/task_view_container/task_view_container.dart';
 
 import '../../../core/path/path.dart';
 
@@ -60,17 +51,13 @@ class NewTask extends StatelessWidget {
                           isShow: index == state.dilog,
                           onLongPress: () {
                             context.read<ScreenController>().Dilog(index);
-                            context.read<ApiRequestBloc>().add(
-                              StatusSelectEvent(
-                                StstusName: "New",
-                                color: "0xff05339C",
-                                icon: "assets/icon/checklist.png",
+                            context.read<TaskStususUpdate>().statusSelection(
+                              StatusSelectModel(
+                                color: '0xff05339C',
+                                StstusName: 'New',
+                                icon: 'assets/icon/checklist.png',
                               ),
                             );
-
-                            // context.read<ApiRequestBloc>().add(
-                            //   // TaskStatusEvent(status: "New"),
-                            // );
                           },
                           cancel: () {
                             context.read<ScreenController>().Dilog(
@@ -95,9 +82,9 @@ class NewTask extends StatelessWidget {
                                 titel: "Delete the task?",
                                 onTapCancel: () => Navigator.pop(context),
                                 onTapYes: () {
-                                  context.read<ApiRequestBloc>().add(
-                                    DeleteTaskEvent(id: task.id),
-                                  );
+                                  context
+                                      .read<DeleteTaskController>()
+                                      .deleteTask(task.id);
                                   Navigator.pop(context);
                                   context.read<ScreenController>().Dilog(
                                     349757239475,

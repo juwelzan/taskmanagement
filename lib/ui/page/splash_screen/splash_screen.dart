@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:lottie/lottie.dart';
-
 import '../../../core/path/path.dart';
 
 class SplashScreen extends StatefulWidget {

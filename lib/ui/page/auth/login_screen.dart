@@ -1,8 +1,5 @@
 // ignore_for_file: prefer_final_fields, must_be_immutable
 
-import 'package:lottie/lottie.dart';
-import 'package:taskmanagement/controller/api_request_controller/user_login_controller.dart';
-
 import '../../../core/path/path.dart';
 
 class LoginScreen extends StatelessWidget {

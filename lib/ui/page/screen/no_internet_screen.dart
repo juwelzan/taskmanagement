@@ -1,4 +1,3 @@
-import 'package:lottie/lottie.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
 class NoInternetScreen extends StatelessWidget {

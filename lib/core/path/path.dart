@@ -43,10 +43,46 @@ export 'package:taskmanagement/core/key/key.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:provider/provider.dart';
 export 'package:taskmanagement/controller/api_request_controller/add_task_controller.dart';
-export 'package:taskmanagement/controller/api_request_controller/bloc/api_request_bloc.dart';
 export 'package:taskmanagement/controller/api_request_controller/get_profile_data.dart';
 export 'package:taskmanagement/controller/api_request_controller/internet_cheker.dart';
 export 'package:taskmanagement/controller/api_request_controller/logout_controller.dart';
 export 'package:taskmanagement/controller/api_request_controller/task_data_controller.dart';
 
 export 'package:taskmanagement/controller/spash_controller/spash_provider.dart';
+export 'package:taskmanagement/controller/api_request_controller/camera_img_pik_controller.dart';
+export 'package:taskmanagement/controller/api_request_controller/delete_task_controller.dart';
+export 'package:taskmanagement/controller/api_request_controller/img_pik_gallery.dart';
+export 'package:taskmanagement/controller/api_request_controller/otp_send_email.dart';
+export 'package:taskmanagement/controller/api_request_controller/otp_verify_controller.dart';
+export 'package:taskmanagement/controller/api_request_controller/profile_update_controller.dart';
+export 'package:taskmanagement/controller/api_request_controller/set_password_controller.dart';
+export 'package:taskmanagement/controller/api_request_controller/task_stusus_update.dart';
+export 'package:taskmanagement/controller/api_request_controller/user_login_controller.dart';
+export 'package:taskmanagement/controller/api_request_controller/user_registration.dart';
+export 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
+export 'package:taskmanagement/core/models/new_task_add_model/new_task_add_model.dart';
+export 'dart:io';
+
+export 'package:image_picker/image_picker.dart';
+export 'package:path_provider/path_provider.dart';
+export 'dart:async';
+export 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+export 'package:taskmanagement/core/models/udate_profile_model/udate_profile_model.dart';
+export 'package:taskmanagement/core/models/task_data_model/task_data_model.dart';
+export 'package:taskmanagement/core/models/task_model/task_mode.dart';
+export 'package:taskmanagement/core/models/status_select_model/status_select_model.dart';
+export 'package:taskmanagement/core/models/login_model/login_model.dart';
+export 'package:taskmanagement/core/models/resgistration_status_model/resgistration_status_model.dart';
+export 'package:taskmanagement/core/models/registration_model/registration_model.dart';
+export 'package:taskmanagement/ui/page/screen/add_task_screen.dart';
+export 'package:taskmanagement/ui/page/screen/no_internet_screen.dart';
+export 'package:taskmanagement/ui/page/screen/profile_screen.dart';
+export 'package:taskmanagement/ui/page/screen/profile_update_screen.dart';
+export 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
+export 'package:taskmanagement/ui/custom/drawer/drawerr.dart';
+export 'package:card_loading/card_loading.dart';
+
+export 'package:taskmanagement/ui/custom/custom_about_dilog/custom_about_dilog.dart';
+export 'package:taskmanagement/ui/custom/task_view_container/task_view_container.dart';
+
+export 'package:lottie/lottie.dart';

@@ -9,10 +9,9 @@ class SpashProvider extends ChangeNotifier {
   void SplashEnd() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final key = sharedPreferences.getString(Keys.userToken);
-    print("object splash end");
+
     await Future.delayed(Duration(seconds: 3));
     if (key != null) {
-      print("key ase");
       taskDataController.getTaskData();
       getProfileData.getUseProfileData();
       router.go("/home");

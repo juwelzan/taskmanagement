@@ -1,7 +1,10 @@
 import 'package:taskmanagement/core/path/path.dart';
 
 class OtpSendEmail extends ChangeNotifier {
+  OtpVerifyController otpVerifyController;
+  OtpSendEmail(this.otpVerifyController);
   String emailError = "";
+
   bool isLoding = false;
   Future<void> emailOPTSend(String email) async {
     emailError = "";
@@ -12,6 +15,7 @@ class OtpSendEmail extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       router.push("/pinveri");
+      otpVerifyController.fatchEmail(email);
     }
     if (response.statusCode == 404) {
       final decode = jsonDecode(response.body);

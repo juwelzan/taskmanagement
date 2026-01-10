@@ -1,10 +1,5 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors_in_immutables
 
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-import 'package:taskmanagement/controller/api_request_controller/task_stusus_update.dart';
-import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
-import 'package:taskmanagement/core/models/status_select_model/status_select_model.dart';
-
 import 'package:taskmanagement/core/path/path.dart';
 
 class CustomAboutDilog extends StatelessWidget {
@@ -16,9 +11,7 @@ class CustomAboutDilog extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);
-        context.read<ApiRequestBloc>().add(
-          StatusDropDownOpen(isStatusDropDownOpen: false),
-        );
+        context.read<TaskStususUpdate>().statusDropDownOpen(false);
       },
       child: Consumer<TaskStususUpdate>(
         builder: (context, state, _) {
@@ -277,13 +270,6 @@ class CustomAboutDilog extends StatelessWidget {
                                   color: '0xff360185',
                                   StstusName: 'Progress',
                                   icon: 'assets/icon/processing-time.png',
-                                ),
-                              );
-                              context.read<ApiRequestBloc>().add(
-                                StatusSelectEvent(
-                                  StstusName: "Progress",
-                                  color: "0xff360185",
-                                  icon: "assets/icon/processing-time.png",
                                 ),
                               );
                             },

@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:taskmanagement/controller/api_request_controller/profile_update_controller.dart';
 import 'package:taskmanagement/core/path/path.dart';
 import 'package:taskmanagement/ui/custom/bottom_sheet/img_bottom_sheet.dart';
 

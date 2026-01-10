@@ -1,6 +1,4 @@
-import 'package:lottie/lottie.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
+// ignore_for_file: must_be_immutable
 
 import '../../../core/path/path.dart';
 
@@ -61,19 +59,21 @@ class SetPassword extends StatelessWidget {
                 },
               ),
               Gap(40.h),
-              BlocBuilder<ApiRequestBloc, ApiRequestState>(
-                builder: (context, state) {
-                  if (!state.lodingSpin) {
+              Consumer<SetPasswordController>(
+                builder: (context, state, _) {
+                  if (!state.lodigSpin) {
                     return FilledButton(
                       onPressed: () {
                         if (_formkey.currentState!.validate()) {
-                          context.read<ApiRequestBloc>().add(
-                            ResetPasswordEvent(
-                              email: state.otpSendEmai.toString(),
-                              otp: state.otp.toString(),
-                              password: conPassController.text,
-                            ),
-                          );
+                          if (state.email != null && state.otp != null) {
+                            context
+                                .read<SetPasswordController>()
+                                .setNewPassword(
+                                  state.email ?? "",
+                                  state.otp ?? "",
+                                  conPassController.text,
+                                );
+                          }
                         }
                       },
                       child: Icon(
@@ -82,7 +82,7 @@ class SetPassword extends StatelessWidget {
                       ),
                     );
                   }
-                  if (state.lodingSpin) {
+                  if (state.lodigSpin) {
                     return Center(
                       child: Lottie.asset("assets/loding.json", width: 40.w),
                     );

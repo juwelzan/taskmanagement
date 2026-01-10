@@ -1,12 +1,6 @@
 // ignore_for_file: prefer_is_empty, deprecated_member_use, unnecessary_underscores
 
-import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:taskmanagement/controller/api_request_controller/delete_task_controller.dart';
-import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
-import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
-import 'package:taskmanagement/ui/custom/custom_about_dilog/custom_about_dilog.dart';
-import 'package:taskmanagement/ui/custom/task_view_container/task_view_container.dart';
 
 import '../../../core/path/path.dart';
 
@@ -58,6 +52,13 @@ class ProgressTask extends StatelessWidget {
                           isShow: index == state.dilog,
                           onLongPress: () {
                             context.read<ScreenController>().Dilog(index);
+                            context.read<TaskStususUpdate>().statusSelection(
+                              StatusSelectModel(
+                                color: '0xff360185',
+                                StstusName: 'Progress',
+                                icon: 'assets/icon/processing-time.png',
+                              ),
+                            );
                           },
                           cancel: () {
                             context.read<ScreenController>().Dilog(

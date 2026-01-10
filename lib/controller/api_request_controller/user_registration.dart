@@ -1,5 +1,3 @@
-import 'package:taskmanagement/core/models/registration_model/registration_model.dart';
-import 'package:taskmanagement/core/models/resgistration_status_model/resgistration_status_model.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
 class UserRegistration extends ChangeNotifier {

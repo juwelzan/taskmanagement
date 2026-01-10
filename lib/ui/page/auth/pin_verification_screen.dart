@@ -1,9 +1,5 @@
 // ignore_for_file: prefer_final_fields, unnecessary_null_comparison, must_be_immutable
 
-import 'package:lottie/lottie.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
-
 import '../../../core/path/path.dart';
 
 class PinVerificationScreen extends StatelessWidget {
@@ -59,9 +55,11 @@ class PinVerificationScreen extends StatelessWidget {
               ),
             ),
             Gap(10.h),
-            BlocBuilder<ApiRequestBloc, ApiRequestState>(
-              builder: (context, state) {
-                if (state.notUserFount != null || state.notUserFount != "") {
+            Consumer<OtpVerifyController>(
+              builder: (context, state, _) {
+                if (state.invalidOTP != null ||
+                    state.invalidOTP != "" ||
+                    state.invalidOTP!.isNotEmpty) {
                   return Text(
                     state.invalidOTP ?? "",
                     style: TextStyle(color: Colors.red),
@@ -71,18 +69,18 @@ class PinVerificationScreen extends StatelessWidget {
               },
             ),
             Gap(10.h),
-            BlocBuilder<ApiRequestBloc, ApiRequestState>(
-              builder: (context, state) {
+            Consumer<OtpVerifyController>(
+              builder: (context, state, _) {
                 if (!state.lodingSpin) {
                   return FilledButton(
                     onPressed: () {
-                      if (_formkey.currentState!.validate()) {
-                        context.read<ApiRequestBloc>().add(
-                          OPTVerifyEvent(
-                            email: state.otpSendEmai!,
-                            otp: controller.text,
-                          ),
-                        );
+                      if (_formkey.currentState?.validate() ?? false) {
+                        if (state.email != "") {
+                          context.read<OtpVerifyController>().otpVerifyEvent(
+                            state.email,
+                            controller.text,
+                          );
+                        }
                       }
                     },
                     child: Icon(Icons.arrow_circle_right_outlined, size: 25.sp),

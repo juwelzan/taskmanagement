@@ -1,9 +1,7 @@
-import 'dart:async';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
 class InternetCheker extends ChangeNotifier {
-  final SpashProvider spashProvider;
+  SpashProvider spashProvider;
   StreamSubscription<InternetStatus>? _subscription;
 
   InternetCheker(this.spashProvider) {

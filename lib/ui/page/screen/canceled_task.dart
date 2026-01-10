@@ -1,14 +1,6 @@
 // ignore_for_file: prefer_is_empty, deprecated_member_use, unnecessary_underscores
 
-import 'package:card_loading/card_loading.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'package:taskmanagement/controller/api_request_controller/delete_task_controller.dart';
-import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
-
-import 'package:taskmanagement/ui/custom/alert_bottom_sheet/alert_bottom_sheet.dart';
-import 'package:taskmanagement/ui/custom/custom_about_dilog/custom_about_dilog.dart';
-import 'package:taskmanagement/ui/custom/task_view_container/task_view_container.dart';
 
 import '../../../core/path/path.dart';
 
@@ -49,8 +41,8 @@ class CanceledTask extends StatelessWidget {
                   itemCount: apiState.canceledTaskAll.length,
                   itemBuilder: (context, index) {
                     final task = apiState.canceledTaskAll[index];
-                    return Consumer<ScreenController>(
-                      builder: (context, state, _) {
+                    return Consumer2<ScreenController, TaskStususUpdate>(
+                      builder: (context, state, taskstutus, _) {
                         return TaskViewContainer(
                           borderColor: "0xffDE1A58",
                           date: task.createdDate,
@@ -71,6 +63,13 @@ class CanceledTask extends StatelessWidget {
                           },
                           onLongPress: () {
                             context.read<ScreenController>().Dilog(index);
+                            context.read<TaskStususUpdate>().statusSelection(
+                              StatusSelectModel(
+                                color: '0xffDE1A58',
+                                StstusName: 'Canceled',
+                                icon: 'assets/icon/cancel.png',
+                              ),
+                            );
                           },
 
                           cancel: () {

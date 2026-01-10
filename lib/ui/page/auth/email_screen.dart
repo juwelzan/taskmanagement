@@ -1,8 +1,5 @@
 // ignore_for_file: prefer_final_fields
 
-import 'package:lottie/lottie.dart';
-import 'package:taskmanagement/controller/api_request_controller/otp_send_email.dart';
-
 import '../../../core/path/path.dart';
 
 class EmailScreen extends StatelessWidget {

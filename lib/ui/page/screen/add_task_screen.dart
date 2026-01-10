@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_final_fields, must_be_immutable
 
 import 'package:taskmanagement/core/path/path.dart';
-import 'package:taskmanagement/ui/custom/drawer/drawerr.dart';
 
 class AddTaskScreen extends StatelessWidget {
   AddTaskScreen({super.key});
@@ -87,6 +86,9 @@ class AddTaskScreen extends StatelessWidget {
                                 title: titleController.text,
                                 description: descriptionController.text,
                                 context: context,
+                              );
+                              context.read<ScreenController>().Dilog(
+                                1234982367455,
                               );
                             }
                           },

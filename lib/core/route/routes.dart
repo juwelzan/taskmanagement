@@ -1,8 +1,3 @@
-import 'package:taskmanagement/ui/page/screen/add_task_screen.dart';
-import 'package:taskmanagement/ui/page/screen/no_internet_screen.dart';
-import 'package:taskmanagement/ui/page/screen/profile_screen.dart';
-import 'package:taskmanagement/ui/page/screen/profile_update_screen.dart';
-
 import '../path/path.dart';
 
 final GoRouter router = GoRouter(

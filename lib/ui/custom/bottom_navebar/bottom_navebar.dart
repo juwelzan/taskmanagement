@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
-import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
-
 import '../../../core/path/path.dart';
 
 class BottomNavebar extends StatelessWidget {

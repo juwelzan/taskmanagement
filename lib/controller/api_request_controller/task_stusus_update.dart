@@ -1,5 +1,3 @@
-import 'package:taskmanagement/controller/page_view_controller/screen_controller.dart';
-import 'package:taskmanagement/core/models/status_select_model/status_select_model.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
 class TaskStususUpdate extends ChangeNotifier {

@@ -1,4 +1,4 @@
-import 'package:taskmanagement/core/models/task_data_model/task_data_model.dart';
+import 'package:taskmanagement/core/path/path.dart';
 
 class TaskMode {
   final List<TaskDataModel> taskData;

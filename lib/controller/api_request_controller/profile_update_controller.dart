@@ -1,4 +1,3 @@
-import 'package:taskmanagement/core/models/udate_profile_model/udate_profile_model.dart';
 import 'package:taskmanagement/core/path/path.dart';
 
 class ProfileUpdateController extends ChangeNotifier {
