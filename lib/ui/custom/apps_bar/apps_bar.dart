@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import '../../../core/path/path.dart';
 
 class AppsBar extends StatelessWidget implements PreferredSizeWidget {

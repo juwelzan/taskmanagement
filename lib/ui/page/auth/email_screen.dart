@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_final_fields
 
 import 'package:lottie/lottie.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_event.dart';
-import 'package:taskmanagement/controller/api_request_controller/bloc/api_request_state.dart';
 import 'package:taskmanagement/controller/api_request_controller/otp_send_email.dart';
 
 import '../../../core/path/path.dart';
